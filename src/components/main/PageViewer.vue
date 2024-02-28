@@ -9,22 +9,22 @@
       <div class="cross br" />
       <div class="content">
         <Me
-          v-if="this.selectedIndex == 0"
+          v-if="this.shownPageIndex == 0"
           :selectedIndex="this.selectedIndex"
           :index=0
         ></Me>
         <Games
-          v-if="this.selectedIndex == 1"
+          v-if="this.shownPageIndex == 1"
           :selectedIndex="this.selectedIndex"
           :index=1
         ></Games>
         <Blog
-          v-if="this.selectedIndex == 2"
+          v-if="this.shownPageIndex == 2"
           :selectedIndex="this.selectedIndex"
           :index=1
         ></Blog>
         <Projects
-          v-if="this.selectedIndex == 3"
+          v-if="this.shownPageIndex == 3"
           :selectedIndex="this.selectedIndex"
           :index=1
         ></Projects>
@@ -54,6 +54,7 @@ export default {
     return {
       isCollapsed: false,
       isBeingAnimated: false,
+      shownPageIndex: 0,
     }
   },
 
@@ -65,10 +66,11 @@ export default {
 
       setTimeout(() => {
         this.isCollapsed = false;
+        this.shownPageIndex = newIndex;
 
         setTimeout(() => {
           this.$emit('onBeingAnimatedStateChanged', false);
-        }, 500);
+        }, 100);
       }, 500);
     }
   }

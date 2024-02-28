@@ -4,6 +4,16 @@
   font-family: 'JetBrains Mono', mono, 'Roboto', sans-serif;
 }
 
+::-moz-selection {
+  color: black;
+  background: $accent;
+}
+
+::selection {
+  color: black;
+  background: $accent;
+}
+
 h1 {
   font-weight: bold;
   color: $text-primary;
