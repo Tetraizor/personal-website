@@ -1,22 +1,58 @@
 <template>
   <div class="rightPanelWrapper">
-    <div class="divider">
-
+    <div class="divider" />
+    <div class="buttonWrapper">
+      <PageButton
+        title="me."
+        :index=0
+        description="a little summary about me."
+        :selectedIndex="selectedIndex"
+        @pageSelect="onPageSelect"
+      />
+      <PageButton
+        title="games."
+        :index=1
+        description="my takes on video games, compiled into a neat database."
+        :selectedIndex="selectedIndex"
+        @pageSelect="onPageSelect"
+      />
+      <PageButton
+        title="blog."
+        :index=2
+        description="my thoughts, lined up."
+        :selectedIndex="selectedIndex"
+        @pageSelect="onPageSelect"
+      />
+      <PageButton
+        title="projects."
+        :index=3
+        description="projects i did and hopefully will do."
+        :selectedIndex="selectedIndex"
+        @pageSelect="onPageSelect"
+      />
     </div>
-    <h1>Right Panel</h1>
   </div>
 </template>
 
 <script>
 
+import PageButton from './PageButton.vue'
+
 export default {
   name: 'RightPanel',
   props: {},
-  components: {},
+  components: { PageButton },
 
   data() {
     return {
+      selectedIndex: 0,
     }
+  },
+
+  methods: {
+    onPageSelect(index) {
+      this.selectedIndex = index;
+    },
   },
 }
 
@@ -24,7 +60,8 @@ export default {
 
 <style scoped lang="scss">
 .rightPanelWrapper {
-  width: 418px;
+  max-width: 25vw;
+  width: 512px;
   background-color: $background-secondary;
 
   background-image: url('../../../assets/patterns/pattern.svg');
@@ -56,6 +93,21 @@ export default {
     width: 2px;
     background-color: $divider;
     height: 100%;
+  }
+
+  .buttonWrapper {
+    padding: 16px;
+
+    width: 100%;
+    display: flex;
+
+    flex-grow: 1;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 32px;
   }
 }
 </style>

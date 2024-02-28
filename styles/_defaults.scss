@@ -1,9 +1,26 @@
 @import './_variables.scss';
 
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'JetBrains Mono', mono, 'Roboto', sans-serif;
 }
 
 h1 {
+  font-weight: bold;
   color: $text-primary;
+
+  line-height: 2rem;
+  font-size: 2rem;
+}
+
+h2 {
+  font-weight: normal;
+  color: $text-primary;
+}
+
+h3 {
+  font-weight: normal;
+  color: $text-primary;
+
+  line-height: 1rem;
+  font-size: 1rem;
 }
