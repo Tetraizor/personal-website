@@ -23,8 +23,6 @@ export default {
 .page {
   overflow: hidden;
 
-  background-color: red;
-
   width: 100%;
   height: 100%;
 

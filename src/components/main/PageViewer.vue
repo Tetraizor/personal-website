@@ -53,15 +53,22 @@ export default {
   data() {
     return {
       isCollapsed: false,
+      isBeingAnimated: false,
     }
   },
 
   watch: {
     selectedIndex(newIndex) {
-      console.log(newIndex);
+      this.$emit('onBeingAnimatedStateChanged', true);
+      this.isBeingAnimated = true;
       this.isCollapsed = true;
+
       setTimeout(() => {
         this.isCollapsed = false;
+
+        setTimeout(() => {
+          this.$emit('onBeingAnimatedStateChanged', false);
+        }, 500);
       }, 500);
     }
   }

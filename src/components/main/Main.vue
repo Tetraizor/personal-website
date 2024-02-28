@@ -1,8 +1,12 @@
 <template>
   <div class="mainWrapper">
-    <PageViewer :selectedIndex="selectedIndex" />
+    <PageViewer
+      :selectedIndex="selectedIndex"
+      @onBeingAnimatedStateChanged="(state) => { this.isPageViewerBeingAnimated = state; }"
+    />
     <RightPanel
       :selectedIndex="selectedIndex"
+      :isPageViewerBeingAnimated="isPageViewerBeingAnimated"
       @onPageSelectCallback="onPageSelect"
     />
   </div>
@@ -23,6 +27,7 @@ export default {
   data() {
     return {
       selectedIndex: 0,
+      isPageViewerBeingAnimated: false,
     }
   },
 

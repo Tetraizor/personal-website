@@ -4,29 +4,29 @@
     <div class="buttonWrapper">
       <PageButton
         title="me."
-        :index=0
         description="a little summary about me."
+        :index=0
         :selectedIndex="selectedIndex"
         @onPageSelectCallback="onPageSelect"
       />
       <PageButton
         title="games."
-        :index=1
         description="my takes on video games, compiled into a neat database."
+        :index=1
         :selectedIndex="selectedIndex"
         @onPageSelectCallback="onPageSelect"
       />
       <PageButton
         title="blog."
-        :index=2
         description="my thoughts, lined up."
+        :index=2
         :selectedIndex="selectedIndex"
         @onPageSelectCallback="onPageSelect"
       />
       <PageButton
         title="projects."
-        :index=3
         description="projects i did and hopefully will do."
+        :index=3
         :selectedIndex="selectedIndex"
         @onPageSelectCallback="onPageSelect"
       />
@@ -40,7 +40,7 @@ import PageButton from './PageButton.vue'
 
 export default {
   name: 'RightPanel',
-  props: ["selectedIndex"],
+  props: ["selectedIndex", "isPageViewerBeingAnimated"],
   components: { PageButton },
 
   data() {
@@ -50,6 +50,7 @@ export default {
 
   methods: {
     onPageSelect(index) {
+      if (this.isPageViewerBeingAnimated) return;
       this.$emit('onPageSelectCallback', index)
     },
   },
