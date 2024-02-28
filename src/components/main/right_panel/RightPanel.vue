@@ -7,28 +7,28 @@
         :index=0
         description="a little summary about me."
         :selectedIndex="selectedIndex"
-        @pageSelect="onPageSelect"
+        @onPageSelectCallback="onPageSelect"
       />
       <PageButton
         title="games."
         :index=1
         description="my takes on video games, compiled into a neat database."
         :selectedIndex="selectedIndex"
-        @pageSelect="onPageSelect"
+        @onPageSelectCallback="onPageSelect"
       />
       <PageButton
         title="blog."
         :index=2
         description="my thoughts, lined up."
         :selectedIndex="selectedIndex"
-        @pageSelect="onPageSelect"
+        @onPageSelectCallback="onPageSelect"
       />
       <PageButton
         title="projects."
         :index=3
         description="projects i did and hopefully will do."
         :selectedIndex="selectedIndex"
-        @pageSelect="onPageSelect"
+        @onPageSelectCallback="onPageSelect"
       />
     </div>
   </div>
@@ -40,18 +40,17 @@ import PageButton from './PageButton.vue'
 
 export default {
   name: 'RightPanel',
-  props: {},
+  props: ["selectedIndex"],
   components: { PageButton },
 
   data() {
     return {
-      selectedIndex: 0,
     }
   },
 
   methods: {
     onPageSelect(index) {
-      this.selectedIndex = index;
+      this.$emit('onPageSelectCallback', index)
     },
   },
 }

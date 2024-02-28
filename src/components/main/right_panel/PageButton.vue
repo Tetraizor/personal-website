@@ -4,7 +4,7 @@
     :class="{ 'selected': this.selected, 'hover': this.hover }"
     @mouseenter="{ this.hover = true; this.openDescription() }"
     @mouseleave="{ this.hover = false; this.collapseDescription() }"
-    @click.prevent="$emit('pageSelect', index)"
+    @click.prevent="$emit('onPageSelectCallback', index)"
   >
     <div class="content">
       <div
@@ -83,10 +83,6 @@ export default {
         } else {
           this.isAnimating = false;
         }
-
-        if (speed != undefined)
-          console.log(speed ? speed : this.textAnimationDelay);
-
       }, speed != undefined ? speed : this.textAnimationDelay);
     },
   },

@@ -1,7 +1,10 @@
 <template>
   <div class="mainWrapper">
-    <PageViewer />
-    <RightPanel />
+    <PageViewer :selectedIndex="selectedIndex" />
+    <RightPanel
+      :selectedIndex="selectedIndex"
+      @onPageSelectCallback="onPageSelect"
+    />
   </div>
 </template>
 
@@ -11,7 +14,7 @@ import PageViewer from './PageViewer.vue'
 
 export default {
   name: 'Main',
-  props: {},
+  props: [],
   components: {
     RightPanel,
     PageViewer,
@@ -19,6 +22,13 @@ export default {
 
   data() {
     return {
+      selectedIndex: 0,
+    }
+  },
+
+  methods: {
+    onPageSelect(index) {
+      this.selectedIndex = index;
     }
   },
 }
