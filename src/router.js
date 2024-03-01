@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 
 // Main Views
 import MainView from './views/MainView.vue';
@@ -100,7 +100,7 @@ const constructionRoutes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: import.meta.env.PUBLIC_IS_GH_PAGES == "true" ? createWebHashHistory() : createWebHistory(),
   routes: import.meta.env.PUBLIC_IS_UNDER_CONSTRUCTION == "true" ? constructionRoutes : defaultRoutes,
 });
 
