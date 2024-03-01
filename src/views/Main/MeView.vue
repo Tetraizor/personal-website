@@ -17,7 +17,7 @@
       </div>
       <hr style="margin-top: 24px; margin-bottom: 24px;">
       <div class="contentBody">
-        <h2>Test</h2>
+        <RouterView />
       </div>
       <hr style="margin-top: 24px; margin-bottom: 24px;">
     </div>
@@ -25,6 +25,9 @@
 </template>
 
 <script>
+
+import { RouterView } from 'vue-router'
+
 export default {
   name: 'Me',
   props: ["selectedIndex", "index"],
