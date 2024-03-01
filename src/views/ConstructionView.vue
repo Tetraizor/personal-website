@@ -2,8 +2,8 @@
   <div class="background">
     <div class="blurField">
       <div class="textWrapper">
-        <h1 style="font-size: 3.5rem; margin-bottom: 2rem;">{{ title }}</h1>
-        <h2 style="font-size: 2rem;">will be open, closer than you think, keep checking frequently.</h2>
+        <h1 class="title">{{ title }}</h1>
+        <h2 class="description">will be open, closer than you think. keep checking frequently.</h2>
       </div>
     </div>
   </div>
@@ -67,9 +67,52 @@ export default {
     width: 100%;
     height: 100%;
 
-    .textWrapper {
-      padding: 256px 15%;
-    }
+
   }
+}
+
+.textWrapper {
+
+  @media screen and (max-width: 600px) {
+    padding: 128px 10%;
+  }
+
+  @media screen and (min-width: 600px) {
+    padding: 256px 15%;
+  }
+}
+
+.title {
+  @media screen and (max-width: 600px) {
+
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    line-height: 2rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+  }
+
+  @media screen and (min-width: 600px) {}
+
+  font-size: 3.5rem;
+  margin-bottom: 2rem;
+  line-height: 5rem;
+}
+
+.description {
+  @media screen and (max-width: 600px) {
+
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    line-height: 1.8rem;
+  }
+
+  @media screen and (min-width: 600px) {}
+
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  line-height: 3rem;
 }
 </style>

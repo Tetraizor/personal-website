@@ -7,52 +7,20 @@
     >
       <div class="cross tl" />
       <div class="cross br" />
+      <div class="cross br" />
       <div class="content">
         <router-view></router-view>
-        <!--
-        <Me
-        v-if="this.shownPageIndex == 0"
-        :selectedIndex="this.selectedIndex"
-        :index=0
-        ></Me>
-        <Games
-        v-if="this.shownPageIndex == 1"
-        :selectedIndex="this.selectedIndex"
-        :index=1
-        ></Games>
-        <Blog
-        v-if="this.shownPageIndex == 2"
-        :selectedIndex="this.selectedIndex"
-        :index=1
-        ></Blog>
-        <Projects
-        v-if="this.shownPageIndex == 3"
-        :selectedIndex="this.selectedIndex"
-        :index=1
-        ></Projects>
-      -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-/*
-import Me from './pages/Me.vue'
-import Games from './pages/Games.vue'
-import Blog from './pages/Blog.vue'
-import Projects from './pages/Projects.vue'
-*/
 
 export default {
   name: 'PageViewer',
   props: ["selectedIndex"],
-  components: {
-    //Me,
-    //Games,
-    //Blog,
-    //Projects,
-  },
+  components: {},
 
   data() {
     return {
