@@ -34,7 +34,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import PageButton from "./PageButton.vue";
 
 export default {
@@ -47,7 +47,7 @@ export default {
   },
 
   methods: {
-    onPageSelect(index) {
+    onPageSelect(index: number) {
       if (this.isPageViewerBeingAnimated) return;
       this.$emit("onPageSelectCallback", index);
     },

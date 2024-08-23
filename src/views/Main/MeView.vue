@@ -2,7 +2,7 @@
   <div class="page">
     <div class="content">
       <div class="header">
-        <h1>umuthan <span style="font-weight: 200;">özel*</span></h1>
+        <h1>umuthan <span style="font-weight: 200">özel*</span></h1>
         <div class="navbar">
           <div class="navButton">
             <h2>about</h2>
@@ -15,29 +15,27 @@
           </div>
         </div>
       </div>
-      <hr style="margin-top: 24px; margin-bottom: 24px;">
+      <hr style="margin-top: 24px; margin-bottom: 24px" />
       <div class="contentBody">
         <RouterView />
       </div>
-      <hr style="margin-top: 24px; margin-bottom: 24px;">
+      <hr style="margin-top: 24px; margin-bottom: 24px" />
     </div>
   </div>
 </template>
 
-<script>
-
-import { RouterView } from 'vue-router'
+<script lang="ts">
+import { RouterView } from "vue-router";
 
 export default {
-  name: 'Me',
+  name: "Me",
   props: ["selectedIndex", "index"],
   components: {},
 
   data() {
-    return {
-    }
+    return {};
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

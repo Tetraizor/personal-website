@@ -2,7 +2,7 @@
   <div class="pageViewerWrapper">
     <div
       class="wrapper"
-      :class="{ collapsed: this.isCollapsed }"
+      :class="{ collapsed: isCollapsed }"
       :style="transitionData"
       ref="wrapper"
     >
@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: "PageViewer",
   props: ["selectedIndex"],

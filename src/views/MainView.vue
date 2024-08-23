@@ -3,8 +3,8 @@
     <PageViewer
       :selectedIndex="selectedIndex"
       @onBeingAnimatedStateChanged="
-        (state) => {
-          this.isPageViewerBeingAnimated = state;
+        (state: boolean) => {
+          isPageViewerBeingAnimated = state;
         }
       "
       @onPageCollapsed="onPageCollapsed"
@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Sidebar from "../components/main/sidebar/Sidebar.vue";
 import PageViewer from "./Main/PageViewer.vue";
 
@@ -60,7 +60,7 @@ export default {
   },
 
   methods: {
-    onPageSelect(index) {
+    onPageSelect(index: number) {
       this.selectedIndex = index;
     },
 

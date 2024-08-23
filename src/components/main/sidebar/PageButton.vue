@@ -1,33 +1,36 @@
 <template>
   <div
     class="pageButton"
-    :class="{ 'selected': this.selected, 'hover': this.hover }"
-    @mouseenter="{ this.hover = true; this.openDescription() }"
-    @mouseleave="{ this.hover = false; this.collapseDescription() }"
+    :class="{ selected: selected, hover: hover }"
+    @mouseenter="
+      {
+        hover = true;
+        openDescription();
+      }
+    "
+    @mouseleave="
+      {
+        hover = false;
+        collapseDescription();
+      }
+    "
     @click.prevent="$emit('onPageSelectCallback', index)"
   >
     <div class="content">
-      <div
-        class="tlCorner"
-        :class="{ 'selected': this.selected, 'hover': this.hover }"
-      ></div>
-      <div
-        class="brCorner"
-        :class="{ 'selected': this.selected, 'hover': this.hover }"
-      ></div>
-      <div
-        class="outline"
-        :class="{ 'selected': this.selected, 'hover': this.hover }"
-      ></div>
+      <div class="tlCorner" :class="{ selected: selected, hover: hover }"></div>
+      <div class="brCorner" :class="{ selected: selected, hover: hover }"></div>
+      <div class="outline" :class="{ selected: selected, hover: hover }"></div>
       <h1>{{ title }}</h1>
-      <h3 v-if="description && (this.selected || this.animatedText.length) > 0">{{ this.buttonDescription }}</h3>
+      <h3 v-if="description && (selected || animatedText.length) > 0">
+        {{ buttonDescription }}
+      </h3>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  name: 'PageButton',
+  name: "PageButton",
   props: ["title", "description", "index", "selectedIndex"],
   components: {},
 
@@ -38,7 +41,7 @@ export default {
       isAnimating: false,
 
       textAnimationDelay: 20,
-    }
+    };
   },
 
   computed: {
@@ -48,42 +51,48 @@ export default {
 
     buttonDescription() {
       return this.selected ? this.description : this.animatedText;
-    }
+    },
   },
 
   methods: {
-    openDescription(speed) {
+    openDescription(speed: number = -1) {
       this.isAnimating = true;
       this.addChar(speed);
     },
-    addChar(speed) {
+    addChar(speed: number = -1) {
       if (!this.hover) return;
 
-      setTimeout(() => {
-        if (this.animatedText.length < this.description.length) {
-          this.animatedText += this.description[this.animatedText.length];
-          this.addChar(speed);
-        } else {
-          this.isAnimating = false;
-        }
-      }, speed != undefined ? speed : this.textAnimationDelay);
+      setTimeout(
+        () => {
+          if (this.animatedText.length < this.description.length) {
+            this.animatedText += this.description[this.animatedText.length];
+            this.addChar(speed);
+          } else {
+            this.isAnimating = false;
+          }
+        },
+        speed != -1 ? speed : this.textAnimationDelay
+      );
     },
 
-    collapseDescription(speed) {
+    collapseDescription(speed: number = -1) {
       this.isAnimating = true;
       this.removeChar(speed);
     },
-    removeChar(speed) {
+    removeChar(speed: number) {
       if (this.hover) return;
 
-      setTimeout(() => {
-        if (this.animatedText.length > 0) {
-          this.animatedText = this.animatedText.slice(0, -1);
-          this.removeChar(speed);
-        } else {
-          this.isAnimating = false;
-        }
-      }, speed != undefined ? speed : this.textAnimationDelay);
+      setTimeout(
+        () => {
+          if (this.animatedText.length > 0) {
+            this.animatedText = this.animatedText.slice(0, -1);
+            this.removeChar(speed);
+          } else {
+            this.isAnimating = false;
+          }
+        },
+        speed != undefined ? speed : this.textAnimationDelay
+      );
     },
   },
 
@@ -103,7 +112,7 @@ export default {
       }
     },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -121,17 +130,17 @@ export default {
   // Transition Properties
   height: 5rem;
   background-color: $button-primary;
-  transition: background-color .2s ease-in, height .2s ease-in;
+  transition: background-color 0.2s ease-in, height 0.2s ease-in;
 
   &.selected {
     background-color: $button-primary-selected;
-    transition: background-color .2s ease-in;
+    transition: background-color 0.2s ease-in;
     height: 7.5rem;
   }
 
   &.hover {
     height: 7.5rem;
-    transition: height .2s ease-in;
+    transition: height 0.2s ease-in;
   }
 
   .content {
@@ -191,8 +200,7 @@ export default {
     width: 24px;
     height: 24px;
 
-    transition: width 0.6s,
-    height 0.6s;
+    transition: width 0.6s, height 0.6s;
 
     &.selected {
       width: 100%;
@@ -218,8 +226,7 @@ export default {
     width: 24px;
     height: 24px;
 
-    transition: width 0.6s,
-    height 0.6s;
+    transition: width 0.6s, height 0.6s;
 
     &.selected {
       width: 100%;
