@@ -2,10 +2,14 @@
   <div class="mainWrapper">
     <PageViewer
       :selectedIndex="selectedIndex"
-      @onBeingAnimatedStateChanged="(state) => { this.isPageViewerBeingAnimated = state; }"
+      @onBeingAnimatedStateChanged="
+        (state) => {
+          this.isPageViewerBeingAnimated = state;
+        }
+      "
       @onPageCollapsed="onPageCollapsed"
     />
-    <RightPanel
+    <Sidebar
       :selectedIndex="selectedIndex"
       :isPageViewerBeingAnimated="isPageViewerBeingAnimated"
       @onPageSelectCallback="onPageSelect"
@@ -14,14 +18,14 @@
 </template>
 
 <script>
-import RightPanel from '../components/main/right_panel/RightPanel.vue'
-import PageViewer from './Main/PageViewer.vue'
+import Sidebar from "../components/main/sidebar/Sidebar.vue";
+import PageViewer from "./Main/PageViewer.vue";
 
 export default {
-  name: 'MainView',
+  name: "MainView",
   props: [],
   components: {
-    RightPanel,
+    Sidebar,
     PageViewer,
   },
 
@@ -50,9 +54,9 @@ export default {
           name: "projects",
           route: "/projects",
           description: "a little summary about me.",
-        }
-      ]
-    }
+        },
+      ],
+    };
   },
 
   methods: {
@@ -61,11 +65,11 @@ export default {
     },
 
     onPageCollapsed() {
-      const routePath = (this.pages[this.selectedIndex].route) || '/';
+      const routePath = this.pages[this.selectedIndex].route || "/";
       this.$router.push(routePath);
-    }
+    },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
