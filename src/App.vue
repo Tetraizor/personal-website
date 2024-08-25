@@ -2,18 +2,18 @@
   <router-view />
 </template>
 
-<script >
-import MainView from './views/MainView.vue'
-import ConstructionView from './views/ConstructionView.vue'
+<script lang="ts">
+import MainView from "./views/MainView.vue";
+import ConstructionView from "./views/ConstructionView.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   props: [],
   components: {
     MainView,
     ConstructionView,
   },
-}
+};
 </script>
 
 <style scoped>

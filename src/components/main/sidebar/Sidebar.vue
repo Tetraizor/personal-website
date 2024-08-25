@@ -1,80 +1,223 @@
 <template>
-  <div class="sidebarWrapper">
-    <div class="divider" />
-    <div class="buttonWrapper">
-      <PageButton
-        title="me."
-        description="a little summary about me."
-        :index="0"
-        :selectedIndex="selectedIndex"
-        @onPageSelectCallback="onPageSelect"
-      />
-      <PageButton
-        title="games."
-        description="my takes on video games, compiled into a neat database."
-        :index="1"
-        :selectedIndex="selectedIndex"
-        @onPageSelectCallback="onPageSelect"
-      />
-      <PageButton
-        title="blog."
-        description="my thoughts, lined up."
-        :index="2"
-        :selectedIndex="selectedIndex"
-        @onPageSelectCallback="onPageSelect"
-      />
-      <PageButton
-        title="projects."
-        description="projects i did and hopefully will do."
-        :index="3"
-        :selectedIndex="selectedIndex"
-        @onPageSelectCallback="onPageSelect"
-      />
+  <div
+    class="background"
+    :class="{ on: sidebarStore.isOpen }"
+    @click.prevent="onEmptySpaceClicked()"
+  ></div>
+  <div class="sidebar" :class="{ collapse: !sidebarStore.isOpen }">
+    <div
+      class="sidebarToggle"
+      :class="{ collapse: !sidebarStore.isOpen }"
+      @click.prevent="toggleSidebar()"
+    >
+      <div class="icon"></div>
+    </div>
+    <div class="sidebarWrapper">
+      <div class="divider"></div>
+      <div class="buttonWrapper">
+        <PageButton
+          title="me."
+          description="a little summary about me."
+          index="me"
+          :selectedIndex="selectedIndex"
+        />
+        <PageButton
+          title="games."
+          description="my takes on video games, compiled into a neat database."
+          index="games"
+          :selectedIndex="selectedIndex"
+        />
+        <PageButton
+          title="blog."
+          description="my thoughts, lined up."
+          index="blog"
+          :selectedIndex="selectedIndex"
+        />
+        <PageButton
+          title="projects."
+          description="projects i did and hopefully will do."
+          index="projects"
+          :selectedIndex="selectedIndex"
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
 import PageButton from "./PageButton.vue";
+import { useSidebarStore } from "@/stores/sidebarStore";
 
-export default {
+export default defineComponent({
   name: "Sidebar",
-  props: ["selectedIndex", "isPageViewerBeingAnimated"],
   components: { PageButton },
+  props: {
+    isPageViewerBeingAnimated: {
+      type: Boolean,
+      default: false,
+    },
+    selectedIndex: {
+      type: Number,
+      default: 0,
+    },
+  },
 
   data() {
-    return {};
+    return {
+      sidebarStore: useSidebarStore(),
+    };
   },
 
   methods: {
-    onPageSelect(index) {
-      if (this.isPageViewerBeingAnimated) return;
-      this.$emit("onPageSelectCallback", index);
+    toggleSidebar() {
+      this.sidebarStore.toggle();
+    },
+
+    onEmptySpaceClicked() {
+      this.sidebarStore.close();
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">
-.sidebarWrapper {
+.background {
+  position: fixed;
+
+  height: 100%;
+  width: 100%;
+
+  top: 0px;
+  left: 0px;
+
+  z-index: 99;
+
+  transition: background-color 0.3s linear, pointer-events 0.3s;
+
+  background-color: rgba(0, 0, 0, 0);
+  pointer-events: none;
+
+  &.on {
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: all;
+  }
+}
+
+.sidebar {
+  position: fixed;
   height: 100%;
 
-  @media screen and (max-width: 768px) {
+  right: 0;
+  top: 0;
+
+  transition: right 0.5s ease-in-out;
+
+  z-index: 101;
+
+  @media screen and (max-width: $tablet) {
     right: 0;
     position: fixed;
     width: 100%;
 
     z-index: 100;
+
+    &.collapse {
+      right: -100%;
+    }
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: $tablet) {
     min-width: 25vw;
     width: 468px;
+
+    &.collapse {
+      right: calc(min(-468px, -25vw));
+    }
   }
+
+  .divider {
+    width: 2px;
+    background-color: $divider;
+    height: 100%;
+  }
+
+  .buttonWrapper {
+    @media screen and (max-width: $tablet) {
+      padding: 48px;
+      margin-top: 100px;
+    }
+
+    @media screen and (min-width: $tablet) {
+      padding: 16px;
+    }
+
+    width: 100%;
+    display: flex;
+
+    flex-grow: 1;
+    flex-direction: column;
+
+    align-items: center;
+
+    @media screen and (max-width: $tablet) {
+      justify-content: start;
+    }
+
+    justify-content: center;
+
+    gap: 32px;
+  }
+
+  .sidebarToggle {
+    position: absolute;
+    z-index: 100;
+
+    cursor: pointer;
+
+    top: 42px;
+    transform: rotate(0deg);
+
+    transition: left 0.5s, transform 0.5s;
+
+    @media screen and (max-width: $tablet) {
+      left: 48px;
+    }
+
+    @media screen and (min-width: $tablet) {
+      left: 16px;
+    }
+
+    &.collapse {
+      left: -110px;
+      transform: rotate(-180deg);
+    }
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 60px;
+
+    border: 4px solid $accent;
+    background-color: $background-primary;
+
+    .icon {
+      background-image: url("@/assets/icons/arrow.svg");
+
+      width: 52px;
+      height: 52px;
+    }
+  }
+}
+
+.sidebarWrapper {
+  position: relative;
+
+  height: 100%;
 
   background-color: $background-secondary;
 
-  background-image: url("../../../assets/patterns/pattern.svg");
+  background-image: url("@/assets/patterns/pattern.svg");
   background-repeat: repeat;
 
   background-size: 750px 866px;
@@ -97,32 +240,6 @@ export default {
     100% {
       background-position: 1500px 866px;
     }
-  }
-
-  .divider {
-    width: 2px;
-    background-color: $divider;
-    height: 100%;
-  }
-
-  .buttonWrapper {
-    padding: 16px;
-
-    width: 100%;
-    display: flex;
-
-    flex-grow: 1;
-    flex-direction: column;
-
-    align-items: center;
-
-    @media screen and (max-width: 768px) {
-      justify-content: start;
-    }
-
-    justify-content: center;
-
-    gap: 32px;
   }
 }
 </style>

@@ -3,24 +3,25 @@
     <div class="blurField">
       <div class="textWrapper">
         <h1 class="title">{{ title }}</h1>
-        <h2 class="description">will be open, closer than you think. keep checking frequently.</h2>
+        <h2 class="description">
+          will be open, closer than you think. keep checking frequently.
+        </h2>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  name: 'ConstructionView',
+  name: "ConstructionView",
   props: [],
-  components: {
-  },
+  components: {},
 
   data() {
     return {
-      title: 'under construction',
+      title: "under construction",
       doesTitleHaveCursor: false,
-    }
+    };
   },
 
   mounted() {
@@ -30,17 +31,17 @@ export default {
       if (!this.doesTitleHaveCursor) {
         this.title = this.title.slice(0, -1);
       } else {
-        this.title = this.title + '|';
+        this.title = this.title + "|";
       }
     }, 500);
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 .background {
   background-color: $background-primary;
-  background-image: url('../assets/patterns/pattern.svg');
+  background-image: url("@/assets/patterns/pattern.svg");
 
   width: 100%;
   height: 100%;
@@ -66,25 +67,21 @@ export default {
 
     width: 100%;
     height: 100%;
-
-
   }
 }
 
 .textWrapper {
-
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: $tablet) {
     padding: 128px 10%;
   }
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $tablet) {
     padding: 256px 15%;
   }
 }
 
 .title {
-  @media screen and (max-width: 600px) {
-
+  @media screen and (max-width: $tablet) {
     font-size: 1.8rem;
     margin-bottom: 2rem;
     line-height: 2rem;
@@ -94,7 +91,8 @@ export default {
     text-overflow: clip;
   }
 
-  @media screen and (min-width: 600px) {}
+  @media screen and (min-width: $tablet) {
+  }
 
   font-size: 3.5rem;
   margin-bottom: 2rem;
@@ -102,14 +100,14 @@ export default {
 }
 
 .description {
-  @media screen and (max-width: 600px) {
-
+  @media screen and (max-width: $tablet) {
     font-size: 1.2rem;
     margin-bottom: 2rem;
     line-height: 1.8rem;
   }
 
-  @media screen and (min-width: 600px) {}
+  @media screen and (min-width: $tablet) {
+  }
 
   font-size: 2rem;
   margin-bottom: 2rem;

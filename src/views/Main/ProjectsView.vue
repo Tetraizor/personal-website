@@ -6,17 +6,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  name: 'Projects',
+  name: "Projects",
   props: ["selectedIndex", "index"],
   components: {},
 
   data() {
-    return {
-    }
+    return {};
   },
-}
+};
 </script>
 
 <style scoped lang="scss">

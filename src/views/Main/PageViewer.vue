@@ -2,7 +2,7 @@
   <div class="pageViewerWrapper">
     <div
       class="wrapper"
-      :class="{ collapsed: this.isCollapsed }"
+      :class="{ collapsed: isCollapsed }"
       :style="transitionData"
       ref="wrapper"
     >
@@ -15,7 +15,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, watch, onMounted } from "vue";
+import { useNavigationStore } from "@/stores/navigationStore";
+
 export default {
   name: "PageViewer",
   props: ["selectedIndex"],
@@ -25,12 +28,15 @@ export default {
     return {
       isCollapsed: false,
       isBeingAnimated: false,
-      shownPageIndex: 0,
+
+      shownPageIndex: "" as string,
 
       collapsedStayDuration: 800,
       collapseTime: 200,
       rotateMargin: 150,
       crossRotated: false,
+
+      navigationStore: useNavigationStore(),
     };
   },
 
@@ -44,11 +50,10 @@ export default {
     },
   },
 
-  watch: {
-    selectedIndex(newIndex) {
+  methods: {
+    select(newIndex: string) {
       // Instant the collapsing begins.
-      this.$emit("onBeingAnimatedStateChanged", true);
-      this.isBeingAnimated = true;
+      this.navigationStore.increaseTransitionStack();
       this.isCollapsed = true;
 
       setTimeout(() => {
@@ -70,11 +75,20 @@ export default {
 
           setTimeout(() => {
             // Instant the expanding ends.
-            this.$emit("onBeingAnimatedStateChanged", false);
+            this.navigationStore.decreaseTransitionStack();
           }, this.collapseTime);
         }, this.collapsedStayDuration);
       }, this.collapseTime);
     },
+  },
+
+  mounted() {
+    watch(
+      () => this.navigationStore.page,
+      (newPage, oldPage) => {
+        this.select(newPage);
+      }
+    );
   },
 };
 </script>
@@ -112,7 +126,7 @@ export default {
 
     .cross {
       position: absolute;
-      background-image: url("../../assets/patterns/cross.svg");
+      background-image: url("@/assets/icons/cross.svg");
       width: 60px;
       height: 60px;
 
