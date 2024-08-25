@@ -41,7 +41,7 @@ export default {
 <style lang="scss" scoped>
 .background {
   background-color: $background-primary;
-  background-image: url("../assets/patterns/pattern.svg");
+  background-image: url("@/assets/patterns/pattern.svg");
 
   width: 100%;
   height: 100%;
@@ -71,17 +71,17 @@ export default {
 }
 
 .textWrapper {
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: $tablet) {
     padding: 128px 10%;
   }
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $tablet) {
     padding: 256px 15%;
   }
 }
 
 .title {
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: $tablet) {
     font-size: 1.8rem;
     margin-bottom: 2rem;
     line-height: 2rem;
@@ -91,7 +91,7 @@ export default {
     text-overflow: clip;
   }
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $tablet) {
   }
 
   font-size: 3.5rem;
@@ -100,13 +100,13 @@ export default {
 }
 
 .description {
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: $tablet) {
     font-size: 1.2rem;
     margin-bottom: 2rem;
     line-height: 1.8rem;
   }
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: $tablet) {
   }
 
   font-size: 2rem;

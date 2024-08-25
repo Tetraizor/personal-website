@@ -1,25 +1,16 @@
 <template>
   <div class="mainWrapper">
-    <PageViewer
-      :selectedIndex="selectedIndex"
-      @onBeingAnimatedStateChanged="
-        (state: boolean) => {
-          isPageViewerBeingAnimated = state;
-        }
-      "
-      @onPageCollapsed="onPageCollapsed"
-    />
-    <Sidebar
-      :selectedIndex="selectedIndex"
-      :isPageViewerBeingAnimated="isPageViewerBeingAnimated"
-      @onPageSelectCallback="onPageSelect"
-    />
+    <PageViewer @onPageCollapsed="onPageCollapsed" />
+    <Sidebar />
   </div>
 </template>
 
 <script lang="ts">
 import Sidebar from "../components/main/sidebar/Sidebar.vue";
 import PageViewer from "./Main/PageViewer.vue";
+
+import { useNavigationStore } from "@/stores/navigationStore";
+import { useScreenStore } from "@/stores/screenStore";
 
 export default {
   name: "MainView",
@@ -31,9 +22,6 @@ export default {
 
   data() {
     return {
-      selectedIndex: 0,
-      isPageViewerBeingAnimated: false,
-
       pages: [
         {
           name: "me",
@@ -56,18 +44,33 @@ export default {
           description: "a little summary about me.",
         },
       ],
+
+      navigationStore: useNavigationStore(),
+      screenStore: useScreenStore(),
     };
   },
 
   methods: {
-    onPageSelect(index: number) {
-      this.selectedIndex = index;
-    },
-
     onPageCollapsed() {
-      const routePath = this.pages[this.selectedIndex].route || "/";
+      const page = this.pages.find((page) => {
+        return page.name === this.navigationStore.page;
+      });
+
+      const routePath = page?.route || "/";
       this.$router.push(routePath);
     },
+  },
+
+  mounted() {
+    window.matchMedia("(min-width: 768px)").addEventListener("change", () => {
+      this.screenStore.setIsMobile(
+        !window.matchMedia("(min-width: 768px)").matches
+      );
+    });
+
+    this.screenStore.setIsMobile(
+      !window.matchMedia("(min-width: 768px)").matches
+    );
   },
 };
 </script>
@@ -77,7 +80,6 @@ export default {
   width: 100vw;
   height: 100vh;
 
-  display: flex;
-  flex-direction: row;
+  overflow: hidden;
 }
 </style>

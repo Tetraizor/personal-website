@@ -14,7 +14,7 @@ export default defineConfig({
     envPrefix: 'PUBLIC_', // This prefix will expose env variables starting with PUBLIC_
     resolve: {
         alias: {
-            '@': '/src', // Alias '@' to the 'src' directory for easier imports
+            '@': '/src',
         }
     },
     server: {

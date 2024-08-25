@@ -1,7 +1,7 @@
 <template>
   <div
     class="pageButton"
-    :class="{ selected: selected, hover: hover }"
+    :class="{ selected: selected, expanded: expanded, hover: hover }"
     @mouseenter="
       {
         hover = true;
@@ -11,17 +11,31 @@
     @mouseleave="
       {
         hover = false;
-        collapseDescription();
+        collapseDescription(1);
       }
     "
-    @click.prevent="$emit('onPageSelectCallback', index)"
+    @click.prevent="() => clicked()"
   >
     <div class="content">
-      <div class="tlCorner" :class="{ selected: selected, hover: hover }"></div>
-      <div class="brCorner" :class="{ selected: selected, hover: hover }"></div>
-      <div class="outline" :class="{ selected: selected, hover: hover }"></div>
+      <div
+        class="tlCorner"
+        :class="{ selected: selected, expanded: expanded }"
+      ></div>
+      <div
+        class="brCorner"
+        :class="{ selected: selected, expanded: expanded }"
+      ></div>
+      <div
+        class="outline"
+        :class="{ selected: selected, expanded: expanded }"
+      ></div>
       <h1>{{ title }}</h1>
-      <h3 v-if="description && (selected || animatedText.length) > 0">
+      <h3
+        v-if="
+          description &&
+          (selected || animatedText.length > 0 || screenStore.isMobile)
+        "
+      >
         {{ buttonDescription }}
       </h3>
     </div>
@@ -29,28 +43,58 @@
 </template>
 
 <script lang="ts">
+import { useNavigationStore } from "@/stores/navigationStore";
+import { useSidebarStore } from "@/stores/sidebarStore";
+import { useScreenStore } from "@/stores/screenStore";
+
+import { PropType } from "vue";
+
 export default {
   name: "PageButton",
-  props: ["title", "description", "index", "selectedIndex"],
+  props: {
+    title: {
+      type: String as PropType<string>,
+      required: true,
+    },
+    description: {
+      type: String as PropType<string>,
+      required: true,
+    },
+    index: {
+      type: String as PropType<string>,
+      required: true,
+    },
+  },
+
   components: {},
 
   data() {
     return {
-      hover: false,
-      animatedText: "",
-      isAnimating: false,
+      hover: false as boolean,
+      animatedText: "" as string,
+      isAnimating: false as boolean,
 
-      textAnimationDelay: 20,
+      textAnimationDelay: 20 as number,
+
+      navigationStore: useNavigationStore(),
+      sidebarStore: useSidebarStore(),
+      screenStore: useScreenStore(),
     };
   },
 
   computed: {
     selected() {
-      return this.$props.index === this.$props.selectedIndex;
+      return this.$props.index === this.navigationStore.page;
     },
 
     buttonDescription() {
-      return this.selected ? this.description : this.animatedText;
+      return this.selected || this.screenStore.isMobile
+        ? this.description
+        : this.animatedText;
+    },
+
+    expanded() {
+      return this.hover || this.selected || this.screenStore.isMobile;
     },
   },
 
@@ -59,6 +103,7 @@ export default {
       this.isAnimating = true;
       this.addChar(speed);
     },
+
     addChar(speed: number = -1) {
       if (!this.hover) return;
 
@@ -71,8 +116,15 @@ export default {
             this.isAnimating = false;
           }
         },
-        speed != -1 ? speed : this.textAnimationDelay
+        speed > 0 ? speed : this.textAnimationDelay
       );
+    },
+
+    async clicked() {
+      if (!this.navigationStore.canTransition) return;
+
+      this.navigationStore.changePage(this.$props.index);
+      this.sidebarStore.toggle();
     },
 
     collapseDescription(speed: number = -1) {
@@ -91,7 +143,7 @@ export default {
             this.isAnimating = false;
           }
         },
-        speed != undefined ? speed : this.textAnimationDelay
+        speed > 0 ? speed : this.textAnimationDelay
       );
     },
   },
@@ -132,13 +184,14 @@ export default {
   background-color: $button-primary;
   transition: background-color 0.2s ease-in, height 0.2s ease-in;
 
-  &.selected {
+  &.selected,
+  &.hover {
     background-color: $button-primary-selected;
     transition: background-color 0.2s ease-in;
     height: 7.5rem;
   }
 
-  &.hover {
+  &.expanded {
     height: 7.5rem;
     transition: height 0.2s ease-in;
   }
@@ -177,7 +230,7 @@ export default {
     transition: border 0.6s ease-in;
 
     &.selected,
-    &.hover {
+    &.expanded {
       border: $outline-width dashed $button-accent-selected;
     }
   }
@@ -189,7 +242,7 @@ export default {
     transition: border-left 0.6s ease-in, border-top 0.6s ease-in;
 
     &.selected,
-    &.hover {
+    &.expanded {
       border-left: $outline-width solid $button-accent-selected;
       border-top: $outline-width solid $button-accent-selected;
     }
@@ -215,7 +268,7 @@ export default {
     transition: border-right 0.6s ease-in, border-bottom 0.6s ease-in;
 
     &.selected,
-    &.hover {
+    &.expanded {
       border-right: $outline-width solid $button-accent-selected;
       border-bottom: $outline-width solid $button-accent-selected;
     }
