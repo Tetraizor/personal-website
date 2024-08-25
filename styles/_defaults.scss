@@ -18,19 +18,60 @@ h1 {
     font-weight: bold;
     color: $text-primary;
 
-    line-height: 2rem;
-    font-size: 2rem;
+    @media screen and (max-width: $tablet) {
+        font-size: $font-h1-small;
+        line-height: $font-h1-small * 1.2;
+    }
+
+    @media screen and (min-width: $tablet) {
+        font-size: $font-h1-large;
+        line-height: $font-h1-large * 1.2;
+    }
 }
 
 h2 {
+    @media screen and (max-width: $tablet) {
+        font-size: $font-h2-small;
+        line-height: $font-h2-small * 1.2;
+    }
+
+    @media screen and (min-width: $tablet) {
+        font-size: $font-h2-large;
+        line-height: $font-h2-large * 1.2;
+
+    }
+
     font-weight: normal;
     color: $text-primary;
 }
 
 h3 {
+    @media screen and (max-width: $tablet) {
+        font-size: $font-h3-small;
+        line-height: $font-h3-small * 1.2;
+    }
+
+    @media screen and (min-width: $tablet) {
+        font-size: $font-h3-large;
+        line-height: $font-h3-large * 1.2;
+
+    }
+
     font-weight: normal;
     color: $text-primary;
+}
 
-    line-height: 1.2rem;
-    font-size: 1rem;
+p {
+    @media screen and (max-width: $tablet) {
+        font-size: $font-p-small ;
+        line-height: $font-p-small * 1.2;
+    }
+
+    @media screen and (min-width: $tablet) {
+        font-size: $font-p-large;
+        line-height: $font-p-large * 1.2;
+    }
+
+    font-weight: normal;
+    color: $text-primary;
 }

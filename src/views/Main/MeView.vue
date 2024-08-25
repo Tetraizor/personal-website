@@ -3,18 +3,33 @@
     <div class="content">
       <div class="header">
         <h1>umuthan <span style="font-weight: 200">özel*</span></h1>
-        <div class="navbar">
-          <div class="navButton">
-            <h2>about</h2>
+        <template v-if="!screenStore.isMobile">
+          <div class="navbar">
+            <div class="navButton">
+              <h2>about</h2>
+            </div>
+            <div class="navButton">
+              <h2>socials</h2>
+            </div>
+            <div class="navButton">
+              <h2>contact</h2>
+            </div>
           </div>
-          <div class="navButton">
-            <h2>socials</h2>
-          </div>
-          <div class="navButton">
-            <h2>contact</h2>
-          </div>
-        </div>
+        </template>
       </div>
+      <template v-if="screenStore.isMobile">
+        <div class="navbarMobile">
+          <span class="navButton">
+            <h2>about</h2>
+          </span>
+          <span class="navButton">
+            <h2>socials</h2>
+          </span>
+          <span class="navButton">
+            <h2>contact</h2>
+          </span>
+        </div>
+      </template>
       <hr style="margin-top: 24px; margin-bottom: 24px" />
       <div class="contentBody">
         <RouterView />
@@ -25,6 +40,7 @@
 </template>
 
 <script lang="ts">
+import { useScreenStore } from "@/stores/screenStore";
 import { RouterView } from "vue-router";
 
 export default {
@@ -33,7 +49,9 @@ export default {
   components: {},
 
   data() {
-    return {};
+    return {
+      screenStore: useScreenStore(),
+    };
   },
 };
 </script>
@@ -56,9 +74,14 @@ export default {
 
     display: flex;
     flex-direction: column;
-    padding: 32px;
 
     max-width: 1228px;
+
+    padding: 32px;
+
+    @media screen and (max-width: 1228px) {
+      padding: 24px;
+    }
 
     .contentBody {
       height: 100%;
@@ -71,21 +94,36 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
 
-      .navbar {
-        display: flex;
-        flex-direction: row;
+    .navbar {
+      display: flex;
+      flex-direction: row;
 
-        gap: 32px;
+      gap: 32px;
+    }
 
-        .navButton {
-          cursor: pointer;
-          transition: 0.2s;
+    .navbarMobile {
+      display: flex;
+      flex-direction: row;
 
-          &:hover {
-            transform: scale(1.05);
-          }
+      gap: 32px;
+
+      margin-top: 10px;
+
+      .navButton {
+        h2 {
+          display: inline !important;
         }
+      }
+    }
+
+    .navButton {
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:hover {
+        transform: scale(1.05);
       }
     }
   }

@@ -217,7 +217,10 @@ export default {
   }
 
   .outline {
-    border: $outline-width dashed $button-accent;
+    border: $outline-width-large dashed $button-accent;
+    @media screen and (max-width: $tablet) {
+      border: $outline-width-small dashed $button-accent;
+    }
 
     top: 0;
     right: 0;
@@ -231,20 +234,31 @@ export default {
 
     &.selected,
     &.expanded {
-      border: $outline-width dashed $button-accent-selected;
+      border: $outline-width-large dashed $button-accent-selected;
+      @media screen and (max-width: $tablet) {
+        border: $outline-width-small dashed $button-accent-selected;
+      }
     }
   }
 
   .tlCorner {
-    border-left: $outline-width solid $button-accent;
-    border-top: $outline-width solid $button-accent;
+    border-left: $outline-width-large solid $button-accent;
+    border-top: $outline-width-large solid $button-accent;
+    @media screen and (max-width: $tablet) {
+      border-left: $outline-width-small solid $button-accent;
+      border-top: $outline-width-small solid $button-accent;
+    }
 
     transition: border-left 0.6s ease-in, border-top 0.6s ease-in;
 
     &.selected,
     &.expanded {
-      border-left: $outline-width solid $button-accent-selected;
-      border-top: $outline-width solid $button-accent-selected;
+      border-left: $outline-width-large solid $button-accent-selected;
+      border-top: $outline-width-large solid $button-accent-selected;
+      @media screen and (max-width: $tablet) {
+        border-left: $outline-width-small solid $button-accent-selected;
+        border-top: $outline-width-small solid $button-accent-selected;
+      }
     }
 
     top: 0;
@@ -262,15 +276,23 @@ export default {
   }
 
   .brCorner {
-    border-right: $outline-width solid $button-accent;
-    border-bottom: $outline-width solid $button-accent;
+    border-right: $outline-width-large solid $button-accent;
+    border-bottom: $outline-width-large solid $button-accent;
+    @media screen and (max-width: $tablet) {
+      border-right: $outline-width-small solid $button-accent;
+      border-bottom: $outline-width-small solid $button-accent;
+    }
 
     transition: border-right 0.6s ease-in, border-bottom 0.6s ease-in;
 
     &.selected,
     &.expanded {
-      border-right: $outline-width solid $button-accent-selected;
-      border-bottom: $outline-width solid $button-accent-selected;
+      border-right: $outline-width-large solid $button-accent-selected;
+      border-bottom: $outline-width-large solid $button-accent-selected;
+      @media screen and (max-width: $tablet) {
+        border-right: $outline-width-small solid $button-accent-selected;
+        border-bottom: $outline-width-small solid $button-accent-selected;
+      }
     }
 
     right: 0;
