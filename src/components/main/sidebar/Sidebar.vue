@@ -144,8 +144,8 @@ export default defineComponent({
 
   .buttonWrapper {
     @media screen and (max-width: $tablet) {
-      padding: 48px;
-      margin-top: 100px;
+      padding: 32px;
+      margin-top: 64px;
     }
 
     @media screen and (min-width: $tablet) {
@@ -175,13 +175,12 @@ export default defineComponent({
 
     cursor: pointer;
 
-    top: 42px;
     transform: rotate(0deg);
 
-    transition: left 0.5s, transform 0.5s;
+    transition: left 0.5s, transform 0.5s, top 0.5s ease-in-out;
 
     @media screen and (max-width: $tablet) {
-      left: 48px;
+      left: 32px;
     }
 
     @media screen and (min-width: $tablet) {
@@ -189,23 +188,51 @@ export default defineComponent({
     }
 
     &.collapse {
-      left: -110px;
+      @media screen and (min-width: $tablet) {
+        left: -110px;
+        top: 42px;
+      }
+
+      @media screen and (max-width: $tablet) {
+        left: -64px;
+        top: 16px;
+      }
+
       transform: rotate(-180deg);
     }
 
-    width: 60px;
-    height: 60px;
+    @media screen and (min-width: $tablet) {
+      width: 60px;
+      height: 60px;
+      top: 42px;
+
+      border: 4px solid $accent;
+    }
+
+    @media screen and (max-width: $tablet) {
+      width: 40px;
+      height: 40px;
+      top: 32px;
+
+      border: 3px solid $accent;
+    }
 
     border-radius: 60px;
 
-    border: 4px solid $accent;
     background-color: $background-primary;
 
     .icon {
       background-image: url("@/assets/icons/arrow.svg");
 
-      width: 52px;
-      height: 52px;
+      @media screen and (max-width: $tablet) {
+        width: 36px;
+        height: 40px;
+      }
+
+      @media screen and (min-width: $tablet) {
+        width: 52px;
+        height: 52px;
+      }
     }
   }
 }

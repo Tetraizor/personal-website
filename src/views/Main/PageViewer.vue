@@ -16,8 +16,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, onMounted } from "vue";
+import { watch } from "vue";
 import { useNavigationStore } from "@/stores/navigationStore";
+import { useScreenStore } from "@/stores/screenStore";
 
 export default {
   name: "PageViewer",
@@ -37,6 +38,8 @@ export default {
       crossRotated: false,
 
       navigationStore: useNavigationStore(),
+
+      screenStore: useScreenStore(),
     };
   },
 
@@ -102,7 +105,12 @@ export default {
   height: 100%;
   width: 100%;
 
-  padding: 70px 80px;
+  @media screen and (max-width: $tablet) {
+    padding: 36px 18px;
+  }
+  @media screen and (min-width: $tablet) {
+    padding: 70px 80px;
+  }
 
   display: flex;
 
@@ -127,6 +135,7 @@ export default {
     .cross {
       position: absolute;
       background-image: url("@/assets/icons/cross.svg");
+
       width: 60px;
       height: 60px;
 
@@ -142,7 +151,12 @@ export default {
         }
       }
 
-      transform: rotate(0);
+      transform: rotate(0) scale(0.6);
+
+      @media screen and (min-width: $tablet) {
+        transform: rotate(0) scale(1);
+      }
+
       transition: transform
         calc(
           (var(--collapsed-stay-duration)) - calc((var(--rotate-margin)) * 2)
@@ -150,17 +164,35 @@ export default {
         ease-in-out;
 
       &.rotated {
-        transform: rotate(180deg);
+        transform: rotate(180deg) scale(0.6);
+
+        @media screen and (min-width: $tablet) {
+          transform: rotate(180deg);
+        }
       }
 
-      &.tl {
-        top: -30px;
-        left: -30px;
+      @media screen and (max-width: $tablet) {
+        &.tl {
+          top: -30px;
+          left: -16px;
+        }
+
+        &.br {
+          bottom: -30px;
+          right: -16px;
+        }
       }
 
-      &.br {
-        bottom: -30px;
-        right: -30px;
+      @media screen and (min-width: $tablet) {
+        &.tl {
+          top: -30px;
+          left: -30px;
+        }
+
+        &.br {
+          bottom: -30px;
+          right: -30px;
+        }
       }
     }
 
