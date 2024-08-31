@@ -123,8 +123,7 @@ export default {
     async clicked() {
       if (!this.navigationStore.canTransition) return;
 
-      this.navigationStore.changePage(this.$props.index);
-      this.sidebarStore.toggle();
+      this.$emit("sidebarButtonPressed", this.index);
     },
 
     collapseDescription(speed: number = -1) {
@@ -162,6 +161,13 @@ export default {
         this.animatedText = this.description;
         this.collapseDescription(10);
       }
+    },
+  },
+
+  events: {
+    sidebarButtonPressed(page: string) {
+      this.sidebarStore.close();
+      this.$emit("sidebarButtonPressed", page);
     },
   },
 };

@@ -4,6 +4,8 @@ import {
   createWebHashHistory,
 } from "vue-router";
 
+import { switchPageInit } from "./stores/navigationStore";
+
 // Main Views
 import MainView from "./views/MainView.vue";
 import ConstructionView from "./views/ConstructionView.vue";
@@ -18,6 +20,42 @@ import GamesView from "./views/Main/GamesView.vue";
 import AboutView from "./views/Main/Me/AboutView.vue";
 import ContactView from "./views/Main/Me/ContactView.vue";
 import SocialsView from "./views/Main/Me/SocialsView.vue";
+
+const pages = [
+  {
+    name: "me",
+    route: "/",
+    subPages: [
+      {
+        name: "about",
+        route: "",
+      },
+      {
+        name: "contact",
+        route: "contact",
+      },
+      {
+        name: "socials",
+        route: "socials",
+      },
+    ],
+  },
+  {
+    name: "games",
+    route: "/games",
+    subPages: [],
+  },
+  {
+    name: "blog",
+    route: "/blog",
+    subPages: [],
+  },
+  {
+    name: "projects",
+    route: "/projects",
+    subPages: [],
+  },
+];
 
 // Default routes to be used when the page is suitable for public viewing.
 const defaultRoutes = [
@@ -114,4 +152,30 @@ const router = createRouter({
       : defaultRoutes,
 });
 
+export function switchPage(page: string, subPage: string = "") {
+  let link = "";
+
+  const selectedPage = pages.find((p) => p.name === page);
+
+  if (selectedPage == null || selectedPage == undefined) {
+    return;
+  }
+
+  link = selectedPage.route;
+
+  const selectedSubPage = selectedPage?.subPages.find(
+    (sp) => sp.name === subPage
+  );
+
+  if (selectedSubPage != null && selectedSubPage != undefined) {
+    link += selectedSubPage.route;
+  }
+
+  console.log(link);
+
+  router.push(link);
+}
+
 export default router;
+
+switchPageInit(switchPage);
