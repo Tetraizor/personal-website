@@ -19,28 +19,28 @@
           <PageButton
             title="me."
             description="a little summary about me."
-            index="me"
+            :pageData="getPageByName('me')"
             :selectedIndex="selectedIndex"
             @sidebarButtonPressed="() => sidebarButtonPressed('me')"
           />
           <PageButton
             title="games."
             description="my takes on video games, compiled into a neat database."
-            index="games"
+            :pageData="getPageByName('games')"
             :selectedIndex="selectedIndex"
             @sidebarButtonPressed="() => sidebarButtonPressed('games')"
           />
           <PageButton
             title="blog."
             description="my thoughts, lined up."
-            index="blog"
+            :pageData="getPageByName('blog')"
             :selectedIndex="selectedIndex"
             @sidebarButtonPressed="() => sidebarButtonPressed('blog')"
           />
           <PageButton
             title="projects."
             description="projects i did and hopefully will do."
-            index="projects"
+            :pageData="getPageByName('projects')"
             :selectedIndex="selectedIndex"
             @sidebarButtonPressed="() => sidebarButtonPressed('projects')"
           />
@@ -54,6 +54,7 @@
 import { defineComponent } from "vue";
 import PageButton from "./PageButton.vue";
 import { useSidebarStore } from "@/stores/sidebarStore";
+import NavigationPage, { getPageByName } from "@/types/NavigationPage";
 
 export default defineComponent({
   name: "Sidebar",
@@ -86,7 +87,11 @@ export default defineComponent({
 
     sidebarButtonPressed(page: string) {
       this.sidebarStore.close();
-      this.$emit("sidebarButtonPressed", page);
+      this.$emit("sidebarButtonPressed", getPageByName(page));
+    },
+
+    getPageByName(name: string): NavigationPage {
+      return getPageByName(name);
     },
   },
 });

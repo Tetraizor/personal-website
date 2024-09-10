@@ -1,37 +1,29 @@
 import { defineStore } from "pinia";
+import NavigationPage, { getPageByName, pages } from "@/types/NavigationPage";
 
-let switchPage: (page: string, subPage: string) => void;
+let switchPage: (page: NavigationPage) => void;
 
-export function switchPageInit(
-  toCall: (page: string, subPage: string) => void
-): void {
+export function switchPageInit(toCall: (page: NavigationPage) => void): void {
   switchPage = toCall;
 }
 
 export const useNavigationStore = defineStore("navigation", {
   state: () => ({
-    page: "me" as string,
-    subPages: {
-      me: "about",
-      games: "games",
-      blog: "blog",
-      projects: "projects",
-    } as Record<string, string>,
+    page: getPageByName("about") as NavigationPage,
     canTransitionStack: 0 as number,
   }),
   actions: {
-    changePage(page: string, subPage: string = "") {
-      this.page = page;
-
-      if (subPage !== "") {
-        this.changeSubPage(page, subPage);
-      } else {
-        this.changeSubPage(page, this.subPages[page]);
+    changePage(page: NavigationPage) {
+      if (page.redirect !== undefined && page.redirect !== "") {
+        this.changePage(getPageByName(page.redirect));
+        return;
       }
+
+      this.page = page;
+      switchPage(page);
     },
-    changeSubPage(page: string, subPage: string) {
-      this.subPages[page] = subPage;
-      switchPage(page, subPage);
+    changePageByName(name: string) {
+      this.changePage(getPageByName(name));
     },
     increaseTransitionStack() {
       this.canTransitionStack++;
@@ -39,13 +31,16 @@ export const useNavigationStore = defineStore("navigation", {
     decreaseTransitionStack() {
       this.canTransitionStack--;
     },
-    getSubPage(page: string): string {
-      return this.subPages[page];
-    },
   },
   getters: {
     canTransition(): boolean {
       return this.canTransitionStack === 0;
+    },
+    currentPage(): NavigationPage {
+      return this.page;
+    },
+    currentPageName(): string {
+      return this.page?.name;
     },
   },
 });

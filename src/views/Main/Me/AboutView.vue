@@ -1,8 +1,6 @@
 <template>
   <div class="aboutPage">
-    <div class="content">
-      <h1>About</h1>
-    </div>
+    <div class="content"></div>
   </div>
 </template>
 
@@ -26,9 +24,10 @@ export default {
 
 <style scoped lang="scss">
 .aboutPage {
-  position: absolute;
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: 100%; /* Ensure this fills the entire available height of its parent */
+  overflow: hidden; /* Prevent the .aboutPage from scrolling */
 
   margin: auto;
 
@@ -36,8 +35,6 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  overflow: hidden;
 
   @include respond-to(mobile) {
     padding: 0 2rem;
@@ -48,9 +45,43 @@ export default {
 
   .content {
     width: 100%;
-    height: 100%;
-
     max-width: $large-desktop;
+
+    height: 100%; /* Let this fill its parent's height */
+    overflow-y: auto; /* Enable scrolling for the content */
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 0.4rem;
+
+      @include respond-to(mobile) {
+        font-size: 1.5rem;
+      }
+    }
+
+    p,
+    li {
+      font-size: $font-p-large;
+      line-height: $font-p-large * 1.5;
+      @include respond-to(mobile) {
+        font-size: $font-p-small;
+        line-height: $font-p-small * 1.5;
+      }
+    }
+
+    ul {
+      margin-left: 2rem;
+
+      li {
+        color: $text-primary;
+      }
+    }
+
+    .divider {
+      width: 100%;
+      margin: 1rem 0;
+    }
   }
 }
 

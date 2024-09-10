@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <div class="content">
+  <div class="meViewWrapper">
+    <div class="meView">
       <div class="header">
         <div class="headerContent">
           <div style="display: flex; flex-direction: row; align-items: center">
@@ -14,27 +14,31 @@
               <div
                 class="navButton"
                 :class="{
-                  selected: navigationStore.getSubPage('me') !== 'about',
+                  notSelected: navigationStore.currentPageName !== 'about',
                 }"
-                @click.prevent="() => changeSubPage('about')"
+                @click.prevent="() => changePage('about')"
               >
                 <h2>about</h2>
               </div>
               <div
                 class="navButton"
                 :class="{
-                  selected: navigationStore.getSubPage('me') !== 'socials',
+                  notSelected: navigationStore.currentPageName !== 'socials',
                 }"
-                @click.prevent="() => changeSubPage('socials')"
+                @click.prevent="
+                  () => navigationStore.changePageByName('socials')
+                "
               >
                 <h2>socials</h2>
               </div>
               <div
                 class="navButton"
                 :class="{
-                  selected: navigationStore.getSubPage('me') !== 'contact',
+                  notSelected: navigationStore.currentPageName !== 'contact',
                 }"
-                @click.prevent="() => changeSubPage('contact')"
+                @click.prevent="
+                  () => navigationStore.changePageByName('contact')
+                "
               >
                 <h2>contact</h2>
               </div>
@@ -46,35 +50,35 @@
             <span
               class="navButton"
               :class="{
-                selected: navigationStore.getSubPage('me') !== 'about',
+                selected: navigationStore.currentPageName !== 'about',
               }"
-              @click.prevent="() => changeSubPage('about')"
+              @click.prevent="() => navigationStore.changePageByName('about')"
             >
               <h2>about</h2>
             </span>
             <span
               class="navButton"
               :class="{
-                selected: navigationStore.getSubPage('me') !== 'socials',
+                selected: navigationStore.currentPageName !== 'socials',
               }"
-              @click.prevent="() => changeSubPage('socials')"
+              @click.prevent="() => navigationStore.changePageByName('socials')"
             >
               <h2>socials</h2>
             </span>
             <span
               class="navButton"
               :class="{
-                selected: navigationStore.getSubPage('me') !== 'contact',
+                selected: navigationStore.currentPageName !== 'contact',
               }"
-              @click.prevent="() => changeSubPage('contact')"
+              @click.prevent="() => navigationStore.changePageByName('contact')"
             >
               <h2>contact</h2>
             </span>
           </div>
         </template>
       </div>
-      <hr style="margin-bottom: 24px; width: 100%" />
-      <div class="contentBody">
+      <hr style="width: 100%" />
+      <div class="body">
         <router-view v-slot="{ Component }">
           <transition name="slide" mode="out-in">
             <component :is="Component" />
@@ -88,6 +92,7 @@
 <script lang="ts">
 import { useNavigationStore } from "@/stores/navigationStore";
 import { useScreenStore } from "@/stores/screenStore";
+import NavigationPage, { getPageByName } from "@/types/NavigationPage";
 import { RouterView } from "vue-router";
 
 export default {
@@ -103,15 +108,18 @@ export default {
   },
 
   methods: {
-    changeSubPage(subPage: string) {
-      this.navigationStore.changeSubPage("me", subPage);
+    changePage(page: string) {
+      this.navigationStore.changePage(getPageByName(page));
+    },
+    getPageByName(name: string): NavigationPage {
+      return getPageByName(name);
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.page {
+.meViewWrapper {
   overflow: hidden;
 
   width: 100%;
@@ -122,7 +130,7 @@ export default {
   align-items: center;
   justify-content: center;
 
-  .content {
+  .meView {
     width: 100%;
     height: 100%;
 
@@ -131,10 +139,11 @@ export default {
     align-items: center;
     justify-content: center;
 
-    .contentBody {
+    .body {
       width: 100%;
-      height: 100%;
+      height: 100%; /* Ensure this fills the entire available height */
       flex-grow: 1;
+      overflow: hidden; /* Prevent the .body from scrolling */
     }
 
     hr {
@@ -155,6 +164,9 @@ export default {
 
         padding-left: 2rem;
         padding-right: 2rem;
+
+        padding-top: 4rem;
+        padding-bottom: 1rem;
       }
 
       @include respond-to(desktop) {
@@ -246,7 +258,7 @@ export default {
       cursor: pointer;
       transition: 0.2s;
 
-      &.selected {
+      &.notSelected {
         h2 {
           color: $text-disabled;
         }

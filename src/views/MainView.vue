@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts">
+import NavigationPage from "@/types/NavigationPage";
 import Sidebar from "../components/main/sidebar/Sidebar.vue";
 import PageViewer from "./Main/PageViewer.vue";
 
@@ -40,7 +41,7 @@ export default {
   },
 
   methods: {
-    sidebarButtonPressed(page: string) {
+    sidebarButtonPressed(page: NavigationPage) {
       const pageViewer = this.$refs.pageViewer as InstanceType<
         typeof PageViewer
       >;

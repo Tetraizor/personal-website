@@ -20,42 +20,7 @@ import GamesView from "./views/Main/GamesView.vue";
 import AboutView from "./views/Main/Me/AboutView.vue";
 import ContactView from "./views/Main/Me/ContactView.vue";
 import SocialsView from "./views/Main/Me/SocialsView.vue";
-
-const pages = [
-  {
-    name: "me",
-    route: "/",
-    subPages: [
-      {
-        name: "about",
-        route: "",
-      },
-      {
-        name: "contact",
-        route: "contact",
-      },
-      {
-        name: "socials",
-        route: "socials",
-      },
-    ],
-  },
-  {
-    name: "games",
-    route: "/games",
-    subPages: [],
-  },
-  {
-    name: "blog",
-    route: "/blog",
-    subPages: [],
-  },
-  {
-    name: "projects",
-    route: "/projects",
-    subPages: [],
-  },
-];
+import NavigationPage from "./types/NavigationPage";
 
 // Default routes to be used when the page is suitable for public viewing.
 const defaultRoutes = [
@@ -92,8 +57,8 @@ const defaultRoutes = [
     component: MainView,
     children: [
       {
-        path: "",
-        name: "games",
+        path: "db",
+        name: "db",
         component: GamesView,
       },
     ],
@@ -103,7 +68,7 @@ const defaultRoutes = [
     component: MainView,
     children: [
       {
-        path: "",
+        path: "projects",
         name: "projects",
         component: ProjectsView,
       },
@@ -114,8 +79,8 @@ const defaultRoutes = [
     component: MainView,
     children: [
       {
-        path: "",
-        name: "blog",
+        path: "posts",
+        name: "posts",
         component: BlogView,
       },
     ],
@@ -152,28 +117,24 @@ const router = createRouter({
       : defaultRoutes,
 });
 
-export function switchPage(page: string, subPage: string = "") {
-  let link = "";
+export function switchPage(page: NavigationPage): void {
+  let currentPage: NavigationPage | null = page;
+  let link = currentPage.route || "";
 
-  const selectedPage = pages.find((p) => p.name === page);
+  while (currentPage !== null) {
+    const parent = currentPage.getParent();
 
-  if (selectedPage == null || selectedPage == undefined) {
-    return;
+    if (parent !== undefined && parent !== null) {
+      const parentRoute = parent.route;
+      link = parentRoute + link;
+    }
+
+    currentPage = parent;
   }
 
-  link = selectedPage.route;
-
-  const selectedSubPage = selectedPage?.subPages.find(
-    (sp) => sp.name === subPage
-  );
-
-  if (selectedSubPage != null && selectedSubPage != undefined) {
-    link += selectedSubPage.route;
-  }
-
-  console.log(link);
-
-  router.push(link);
+  router.push({
+    path: link,
+  });
 }
 
 export default router;

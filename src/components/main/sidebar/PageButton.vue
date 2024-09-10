@@ -48,6 +48,7 @@ import { useSidebarStore } from "@/stores/sidebarStore";
 import { useScreenStore } from "@/stores/screenStore";
 
 import { PropType } from "vue";
+import NavigationPage from "@/types/NavigationPage";
 
 export default {
   name: "PageButton",
@@ -60,8 +61,8 @@ export default {
       type: String as PropType<string>,
       required: true,
     },
-    index: {
-      type: String as PropType<string>,
+    pageData: {
+      type: NavigationPage as PropType<NavigationPage>,
       required: true,
     },
   },
@@ -84,7 +85,7 @@ export default {
 
   computed: {
     selected() {
-      return this.$props.index === this.navigationStore.page;
+      return this.$props.pageData === this.navigationStore.currentPage;
     },
 
     buttonDescription() {
@@ -123,7 +124,7 @@ export default {
     async clicked() {
       if (!this.navigationStore.canTransition) return;
 
-      this.$emit("sidebarButtonPressed", this.index);
+      this.$emit("sidebarButtonPressed", this.pageData);
     },
 
     collapseDescription(speed: number = -1) {

@@ -8,12 +8,20 @@
     >
       <div
         class="cross tl"
-        :class="{ rotated: crossRotated, collapsed: isCollapsed }"
+        :class="{
+          rotated: crossRotated,
+          collapsed: isCollapsed,
+          hideCross: navigationStore.currentPage.hideCross,
+        }"
         :style="crossData"
       ></div>
       <div
         class="cross br"
-        :class="{ rotated: crossRotated, collapsed: isCollapsed }"
+        :class="{
+          rotated: crossRotated,
+          collapsed: isCollapsed,
+          hideCross: navigationStore.currentPage.hideCross,
+        }"
         :style="crossData"
       ></div>
       <div class="content">
@@ -27,6 +35,7 @@
 import { watch } from "vue";
 import { useNavigationStore } from "@/stores/navigationStore";
 import { useScreenStore } from "@/stores/screenStore";
+import NavigationPage, { getPageByName } from "@/types/NavigationPage";
 
 export default {
   name: "PageViewer",
@@ -38,7 +47,7 @@ export default {
       isCollapsed: false,
       isBeingAnimated: false,
 
-      shownPageIndex: "" as string,
+      shownPageIndex: getPageByName("me") as NavigationPage,
 
       collapsedStayDuration: 800,
       collapseTime: 200,
@@ -67,7 +76,7 @@ export default {
   },
 
   methods: {
-    transitionPageView(newIndex: string) {
+    transitionPageView(newPage: NavigationPage) {
       // Instant the collapsing begins.
       this.navigationStore.increaseTransitionStack();
       this.isCollapsed = true;
@@ -75,8 +84,8 @@ export default {
       setTimeout(() => {
         // Instant the collapsing ends, and crosses stay still.
         // After collapsing, change page, and start expanding back.
-        this.shownPageIndex = newIndex;
-        this.navigationStore.changePage(newIndex);
+        this.shownPageIndex = newPage;
+        this.navigationStore.changePage(newPage);
 
         setTimeout(() => {
           this.crossRotated = !this.crossRotated;
@@ -163,7 +172,14 @@ export default {
         bottom var(--collapse-time) ease-in-out,
         right var(--collapse-time) ease-in-out,
         width var(--collapse-time) ease-in-out,
-        height var(--collapse-time) ease-in-out;
+        height var(--collapse-time) ease-in-out,
+        opacity var(--collapse-time) ease-in-out;
+
+      opacity: 1;
+
+      &.hideCross {
+        opacity: 0;
+      }
 
       &.rotated {
         transform: rotate(180deg);
