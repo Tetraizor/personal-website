@@ -6,10 +6,26 @@
       :style="transitionData"
       ref="wrapper"
     >
-      <div class="cross tl" :class="{ rotated: crossRotated }" />
-      <div class="cross br" :class="{ rotated: crossRotated }" />
+      <div
+        class="cross tl"
+        :class="{
+          rotated: crossRotated,
+          collapsed: isCollapsed,
+          hideCross: navigationStore.currentPage.hideCross,
+        }"
+        :style="crossData"
+      ></div>
+      <div
+        class="cross br"
+        :class="{
+          rotated: crossRotated,
+          collapsed: isCollapsed,
+          hideCross: navigationStore.currentPage.hideCross,
+        }"
+        :style="crossData"
+      ></div>
       <div class="content">
-        <router-view></router-view>
+        <RouterView></RouterView>
       </div>
     </div>
   </div>
@@ -19,6 +35,7 @@
 import { watch } from "vue";
 import { useNavigationStore } from "@/stores/navigationStore";
 import { useScreenStore } from "@/stores/screenStore";
+import NavigationPage, { getPageByName } from "@/types/NavigationPage";
 
 export default {
   name: "PageViewer",
@@ -30,7 +47,7 @@ export default {
       isCollapsed: false,
       isBeingAnimated: false,
 
-      shownPageIndex: "" as string,
+      shownPageIndex: getPageByName("me") as NavigationPage,
 
       collapsedStayDuration: 800,
       collapseTime: 200,
@@ -47,14 +64,19 @@ export default {
     transitionData() {
       return {
         "--collapse-time": this.collapseTime + "ms",
-        "--collapsed-stay-duration": this.collapsedStayDuration + "ms",
         "--rotate-margin": this.rotateMargin + "ms",
+        "--collapsed-stay-duration": this.collapsedStayDuration + "ms",
+      };
+    },
+    crossData() {
+      return {
+        "--size": this.screenStore.isMobile ? "40px" : "50px",
       };
     },
   },
 
   methods: {
-    select(newIndex: string) {
+    transitionPageView(newPage: NavigationPage) {
       // Instant the collapsing begins.
       this.navigationStore.increaseTransitionStack();
       this.isCollapsed = true;
@@ -62,9 +84,9 @@ export default {
       setTimeout(() => {
         // Instant the collapsing ends, and crosses stay still.
         // After collapsing, change page, and start expanding back.
-        this.shownPageIndex = newIndex;
+        this.shownPageIndex = newPage;
+        this.navigationStore.changePage(newPage);
 
-        this.$emit("onPageCollapsed");
         setTimeout(() => {
           this.crossRotated = !this.crossRotated;
         }, this.rotateMargin);
@@ -85,14 +107,7 @@ export default {
     },
   },
 
-  mounted() {
-    watch(
-      () => this.navigationStore.page,
-      (newPage, oldPage) => {
-        this.select(newPage);
-      }
-    );
-  },
+  mounted() {},
 };
 </script>
 
@@ -104,13 +119,6 @@ export default {
 
   height: 100%;
   width: 100%;
-
-  @media screen and (max-width: $tablet) {
-    padding: 36px 18px;
-  }
-  @media screen and (min-width: $tablet) {
-    padding: 70px 80px;
-  }
 
   display: flex;
 
@@ -135,9 +143,12 @@ export default {
     .cross {
       position: absolute;
       background-image: url("@/assets/icons/cross.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
 
-      width: 60px;
-      height: 60px;
+      width: var(--size);
+      height: var(--size);
 
       @keyframes rotate {
         0% {
@@ -151,47 +162,70 @@ export default {
         }
       }
 
-      transform: rotate(0) scale(0.6);
-
-      @media screen and (min-width: $tablet) {
-        transform: rotate(0) scale(1);
-      }
-
       transition: transform
-        calc(
-          (var(--collapsed-stay-duration)) - calc((var(--rotate-margin)) * 2)
-        )
-        ease-in-out;
+          calc(
+            (var(--collapsed-stay-duration)) - calc((var(--rotate-margin)) * 2)
+          )
+          ease-in-out,
+        top var(--collapse-time) ease-in-out,
+        left var(--collapse-time) ease-in-out,
+        bottom var(--collapse-time) ease-in-out,
+        right var(--collapse-time) ease-in-out,
+        width var(--collapse-time) ease-in-out,
+        height var(--collapse-time) ease-in-out,
+        opacity var(--collapse-time) ease-in-out;
+
+      opacity: 1;
+
+      &.hideCross {
+        opacity: 0;
+      }
 
       &.rotated {
-        transform: rotate(180deg) scale(0.6);
-
-        @media screen and (min-width: $tablet) {
-          transform: rotate(180deg);
-        }
+        transform: rotate(180deg);
       }
 
-      @media screen and (max-width: $tablet) {
+      @include respond-to(mobile) {
         &.tl {
-          top: -30px;
-          left: -16px;
+          top: 16px;
+          left: 16px;
+
+          &.collapsed {
+            top: calc(var(--size) * -1 / 2);
+            left: calc(var(--size) * -1 / 2);
+          }
         }
 
         &.br {
-          bottom: -30px;
-          right: -16px;
+          bottom: 30px;
+          right: 16px;
+
+          &.collapsed {
+            bottom: calc(var(--size) * -1 / 2);
+            right: calc(var(--size) * -1 / 2);
+          }
         }
       }
 
-      @media screen and (min-width: $tablet) {
+      @include respond-to(desktop) {
         &.tl {
-          top: -30px;
-          left: -30px;
+          top: calc(var(--size) / 2);
+          left: calc(var(--size) / 2);
+
+          &.collapsed {
+            top: calc(var(--size) * -1 / 2);
+            left: calc(var(--size) * -1 / 2);
+          }
         }
 
         &.br {
-          bottom: -30px;
-          right: -30px;
+          bottom: calc(var(--size) / 2);
+          right: calc(var(--size) / 2);
+
+          &.collapsed {
+            bottom: calc(var(--size) * -1 / 2);
+            right: calc(var(--size) * -1 / 2);
+          }
         }
       }
     }

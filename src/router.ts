@@ -4,6 +4,8 @@ import {
   createWebHashHistory,
 } from "vue-router";
 
+import { switchPageInit } from "./stores/navigationStore";
+
 // Main Views
 import MainView from "./views/MainView.vue";
 import ConstructionView from "./views/ConstructionView.vue";
@@ -18,6 +20,7 @@ import GamesView from "./views/Main/GamesView.vue";
 import AboutView from "./views/Main/Me/AboutView.vue";
 import ContactView from "./views/Main/Me/ContactView.vue";
 import SocialsView from "./views/Main/Me/SocialsView.vue";
+import NavigationPage from "./types/NavigationPage";
 
 // Default routes to be used when the page is suitable for public viewing.
 const defaultRoutes = [
@@ -54,8 +57,8 @@ const defaultRoutes = [
     component: MainView,
     children: [
       {
-        path: "",
-        name: "games",
+        path: "db",
+        name: "db",
         component: GamesView,
       },
     ],
@@ -65,7 +68,7 @@ const defaultRoutes = [
     component: MainView,
     children: [
       {
-        path: "",
+        path: "projects",
         name: "projects",
         component: ProjectsView,
       },
@@ -76,8 +79,8 @@ const defaultRoutes = [
     component: MainView,
     children: [
       {
-        path: "",
-        name: "blog",
+        path: "posts",
+        name: "posts",
         component: BlogView,
       },
     ],
@@ -114,4 +117,26 @@ const router = createRouter({
       : defaultRoutes,
 });
 
+export function switchPage(page: NavigationPage): void {
+  let currentPage: NavigationPage | null = page;
+  let link = currentPage.route || "";
+
+  while (currentPage !== null) {
+    const parent = currentPage.getParent();
+
+    if (parent !== undefined && parent !== null) {
+      const parentRoute = parent.route;
+      link = parentRoute + link;
+    }
+
+    currentPage = parent;
+  }
+
+  router.push({
+    path: link,
+  });
+}
+
 export default router;
+
+switchPageInit(switchPage);

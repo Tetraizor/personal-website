@@ -1,44 +1,50 @@
 <template>
-  <div
-    class="background"
-    :class="{ on: sidebarStore.isOpen }"
-    @click.prevent="onEmptySpaceClicked()"
-  ></div>
-  <div class="sidebar" :class="{ collapse: !sidebarStore.isOpen }">
+  <div>
     <div
-      class="sidebarToggle"
-      :class="{ collapse: !sidebarStore.isOpen }"
-      @click.prevent="toggleSidebar()"
-    >
-      <div class="icon"></div>
-    </div>
-    <div class="sidebarWrapper">
-      <div class="divider"></div>
-      <div class="buttonWrapper">
-        <PageButton
-          title="me."
-          description="a little summary about me."
-          index="me"
-          :selectedIndex="selectedIndex"
-        />
-        <PageButton
-          title="games."
-          description="my takes on video games, compiled into a neat database."
-          index="games"
-          :selectedIndex="selectedIndex"
-        />
-        <PageButton
-          title="blog."
-          description="my thoughts, lined up."
-          index="blog"
-          :selectedIndex="selectedIndex"
-        />
-        <PageButton
-          title="projects."
-          description="projects i did and hopefully will do."
-          index="projects"
-          :selectedIndex="selectedIndex"
-        />
+      class="background"
+      :class="{ on: sidebarStore.isOpen }"
+      @click.prevent="onEmptySpaceClicked()"
+    ></div>
+    <div class="sidebar" :class="{ collapse: !sidebarStore.isOpen }">
+      <div
+        class="sidebarToggle"
+        :class="{ collapse: !sidebarStore.isOpen }"
+        @click.prevent="toggleSidebar()"
+      >
+        <div class="icon"></div>
+      </div>
+      <div class="sidebarWrapper">
+        <div class="divider"></div>
+        <div class="buttonWrapper">
+          <PageButton
+            title="me."
+            description="a little summary about me."
+            :pageData="getPageByName('me')"
+            :selectedIndex="selectedIndex"
+            @sidebarButtonPressed="() => sidebarButtonPressed('me')"
+          />
+          <PageButton
+            title="games."
+            description="my takes on video games, compiled into a neat database."
+            :pageData="getPageByName('games')"
+            :selectedIndex="selectedIndex"
+            @sidebarButtonPressed="() => sidebarButtonPressed('games')"
+          />
+          <PageButton
+            title="blog."
+            description="my thoughts, lined up."
+            :pageData="getPageByName('blog')"
+            :selectedIndex="selectedIndex"
+            @sidebarButtonPressed="() => sidebarButtonPressed('blog')"
+          />
+          <PageButton
+            title="projects."
+            description="projects i did and hopefully will do."
+            :pageData="getPageByName('projects')"
+            :selectedIndex="selectedIndex"
+            @sidebarButtonPressed="() => sidebarButtonPressed('projects')"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -48,6 +54,7 @@
 import { defineComponent } from "vue";
 import PageButton from "./PageButton.vue";
 import { useSidebarStore } from "@/stores/sidebarStore";
+import NavigationPage, { getPageByName } from "@/types/NavigationPage";
 
 export default defineComponent({
   name: "Sidebar",
@@ -76,6 +83,15 @@ export default defineComponent({
 
     onEmptySpaceClicked() {
       this.sidebarStore.close();
+    },
+
+    sidebarButtonPressed(page: string) {
+      this.sidebarStore.close();
+      this.$emit("sidebarButtonPressed", getPageByName(page));
+    },
+
+    getPageByName(name: string): NavigationPage {
+      return getPageByName(name);
     },
   },
 });
@@ -176,45 +192,39 @@ export default defineComponent({
     cursor: pointer;
 
     transform: rotate(0deg);
-
     transition: left 0.5s, transform 0.5s, top 0.5s ease-in-out;
 
-    @media screen and (max-width: $tablet) {
-      left: 32px;
-    }
-
-    @media screen and (min-width: $tablet) {
-      left: 16px;
-    }
-
     &.collapse {
-      @media screen and (min-width: $tablet) {
-        left: -110px;
-        top: 42px;
+      @include respond-to(mobile) {
+        left: -55px;
+        top: 16px;
       }
 
-      @media screen and (max-width: $tablet) {
-        left: -64px;
-        top: 16px;
+      @include respond-to(desktop) {
+        left: -75px;
+        top: 25px;
       }
 
       transform: rotate(-180deg);
     }
 
-    @media screen and (min-width: $tablet) {
-      width: 60px;
-      height: 60px;
-      top: 42px;
+    @include respond-to(desktop) {
+      width: 50px;
+      height: 50px;
+      top: 25px;
+      left: 16px;
 
       border: 4px solid $accent;
     }
 
-    @media screen and (max-width: $tablet) {
+    @include respond-to(mobile) {
       width: 40px;
       height: 40px;
       top: 32px;
 
       border: 3px solid $accent;
+
+      left: 32px;
     }
 
     border-radius: 60px;
@@ -224,14 +234,14 @@ export default defineComponent({
     .icon {
       background-image: url("@/assets/icons/arrow.svg");
 
-      @media screen and (max-width: $tablet) {
+      @include respond-to(mobile) {
         width: 36px;
         height: 40px;
       }
 
-      @media screen and (min-width: $tablet) {
-        width: 52px;
-        height: 52px;
+      @include respond-to(desktop) {
+        width: 44px;
+        height: 44px;
       }
     }
   }

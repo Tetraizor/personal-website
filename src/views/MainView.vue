@@ -1,11 +1,12 @@
 <template>
   <div class="mainWrapper">
-    <PageViewer @onPageCollapsed="onPageCollapsed" />
-    <Sidebar />
+    <PageViewer ref="pageViewer" />
+    <Sidebar ref="sidebar" @sidebarButtonPressed="sidebarButtonPressed" />
   </div>
 </template>
 
 <script lang="ts">
+import NavigationPage from "@/types/NavigationPage";
 import Sidebar from "../components/main/sidebar/Sidebar.vue";
 import PageViewer from "./Main/PageViewer.vue";
 
@@ -22,43 +23,9 @@ export default {
 
   data() {
     return {
-      pages: [
-        {
-          name: "me",
-          route: "/",
-          description: "a little summary about me.",
-        },
-        {
-          name: "games",
-          route: "/games",
-          description: "a little summary about me.",
-        },
-        {
-          name: "blog",
-          route: "/blog",
-          description: "a little summary about me.",
-        },
-        {
-          name: "projects",
-          route: "/projects",
-          description: "a little summary about me.",
-        },
-      ],
-
       navigationStore: useNavigationStore(),
       screenStore: useScreenStore(),
     };
-  },
-
-  methods: {
-    onPageCollapsed() {
-      const page = this.pages.find((page) => {
-        return page.name === this.navigationStore.page;
-      });
-
-      const routePath = page?.route || "/";
-      this.$router.push(routePath);
-    },
   },
 
   mounted() {
@@ -71,6 +38,15 @@ export default {
     this.screenStore.setIsMobile(
       !window.matchMedia("(min-width: 768px)").matches
     );
+  },
+
+  methods: {
+    sidebarButtonPressed(page: NavigationPage) {
+      const pageViewer = this.$refs.pageViewer as InstanceType<
+        typeof PageViewer
+      >;
+      pageViewer.transitionPageView(page);
+    },
   },
 };
 </script>

@@ -1,0 +1,52 @@
+// Breakpoints
+$mobile: 600px;
+$tablet: 768px;
+$desktop: 1024px;
+$large-desktop: 1200px;
+
+// Mixin for media queries
+@mixin respond-to($breakpoints...) {
+    @each $breakpoint in $breakpoints {
+        @if $breakpoint ==phone {
+            @media (max-width: $mobile) {
+                @content;
+            }
+        }
+
+        @else if $breakpoint ==tablet {
+            @media (min-width: ($mobile + 1)) and (max-width: $tablet) {
+                @content;
+            }
+        }
+
+        @else if $breakpoint ==mobile {
+            @media (max-width: $tablet) {
+                @content;
+            }
+        }
+
+        @else if $breakpoint ==small-desktop {
+            @media (min-width: ($tablet + 1)) and (max-width: $desktop) {
+                @content;
+            }
+        }
+
+        @else if $breakpoint ==large-desktop {
+            @media (min-width: ($desktop + 1)) and (max-width: $large-desktop) {
+                @content;
+            }
+        }
+
+        @else if $breakpoint ==xlarge {
+            @media (min-width: ($large-desktop + 1)) {
+                @content;
+            }
+        }
+
+        @else if $breakpoint ==desktop {
+            @media (min-width: ($tablet + 1)) {
+                @content;
+            }
+        }
+    }
+}

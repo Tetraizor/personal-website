@@ -4,14 +4,24 @@
     font-family: 'JetBrains Mono', mono, 'Roboto', sans-serif;
 }
 
-::-moz-selection {
-    color: black;
-    background: $accent;
+::selection {
+    color: black !important;
+    background: $accent !important;
 }
 
-::selection {
-    color: black;
-    background: $accent;
+::-moz-selection {
+    color: black !important;
+    background: $accent !important;
+}
+
+::-webkit-selection {
+    color: black !important;
+    background: $accent !important;
+}
+
+.highlight {
+    color: black !important;
+    background: $accent !important;
 }
 
 h1 {

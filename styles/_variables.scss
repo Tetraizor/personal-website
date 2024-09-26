@@ -1,5 +1,6 @@
 $text-primary: #FFFFFF;
 $text-secondary: #e6e6e6;
+$text-disabled: #969696;
 
 $background-primary: #1F1F22;
 $background-secondary: #1C1C1F;
@@ -13,9 +14,5 @@ $button-accent-selected: #ff176c;
 $accent: #ff176c;
 
 $divider: #171717;
-
-// Media Query Sizes
-$mobile: 320px;
-$tablet: 768px;
-$desktop: 1024px;
-$large-desktop: 1440px;
+$divider-mid: #363636;
+$divider-light: #ffffff;
