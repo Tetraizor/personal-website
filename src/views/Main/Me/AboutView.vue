@@ -1,6 +1,9 @@
 <template>
   <div class="aboutPage">
-    <div class="content"></div>
+    <div class="scrollView">
+      <div class="content">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -26,8 +29,8 @@ export default {
 .aboutPage {
   position: relative;
   width: 100%;
-  height: 100%; /* Ensure this fills the entire available height of its parent */
-  overflow: hidden; /* Prevent the .aboutPage from scrolling */
+  height: 100%;
+  overflow: hidden;
 
   margin: auto;
 
@@ -36,19 +39,26 @@ export default {
   align-items: center;
   justify-content: center;
 
-  @include respond-to(mobile) {
-    padding: 0 2rem;
-  }
-  @include respond-to(desktop) {
-    padding: 0 4rem;
+  .scrollView {
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 
   .content {
     width: 100%;
     max-width: $large-desktop;
 
-    height: 100%; /* Let this fill its parent's height */
-    overflow-y: auto; /* Enable scrolling for the content */
+    height: 100%;
+
+    @include respond-to(mobile) {
+      margin: 0 2rem;
+    }
+
+    @include respond-to(desktop) {
+      margin: 0 4rem;
+    }
 
     h1 {
       font-size: 2rem;

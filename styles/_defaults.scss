@@ -85,3 +85,48 @@ p {
     font-weight: normal;
     color: $text-primary;
 }
+
+a {
+    color: $accent;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s, background-color 0.2s;
+
+    background-color: transparent;
+
+    &:visited,
+    &:active {
+        color: $text-primary;
+    }
+
+    &:hover {
+        color: $accent-hover;
+
+        &.hoverEffect {
+            background-color: $accent;
+            color: black;
+        }
+    }
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    padding: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4b4b4b6e;
+    border-radius: 16px;
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #7777776e;
+}
