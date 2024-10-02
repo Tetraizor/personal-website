@@ -11,15 +11,13 @@ export default defineConfig({
             }
         }
     },
-    envPrefix: 'PUBLIC_', // This prefix will expose env variables starting with PUBLIC_
+    envPrefix: 'PUBLIC_',
     resolve: {
         alias: {
             '@': '/src',
         }
     },
     server: {
-        // Optional: configure your development server if needed
-        // For example, setting a specific port or host
         port: 3000,
         strictPort: true,
     }

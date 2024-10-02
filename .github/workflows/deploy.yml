@@ -7,13 +7,17 @@ on:
 
   workflow_dispatch:
 
+env:
+  PUBLIC_SERVICE_URL: ${{ secrets.PUBLIC_SERVICE_URL }}
+  PUBLIC_SERVICE_PORT: ${{ secrets.PUBLIC_SERVICE_PORT }}
+
 permissions:
   contents: read
   pages: write
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -33,7 +37,7 @@ jobs:
 
         with:
           node-version: 18
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm install
@@ -49,10 +53,10 @@ jobs:
 
         with:
           # Upload dist repository
-          path: './dist'
+          path: "./dist"
 
       - name: Deploy to GitHub Pages
-      
+
         id: deployment
 
         uses: actions/deploy-pages@v2
