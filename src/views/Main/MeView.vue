@@ -153,8 +153,8 @@ export default {
     .header {
       width: 100%;
 
-      padding-top: 92px;
-      padding-bottom: 32px;
+      padding-top: 6rem;
+      padding-bottom: 2rem;
 
       @include respond-to(mobile) {
         display: flex;
@@ -216,6 +216,7 @@ export default {
 
       .headerContent {
         max-width: $large-desktop;
+        max-width: 1200px;
         width: 100%;
 
         display: flex;
