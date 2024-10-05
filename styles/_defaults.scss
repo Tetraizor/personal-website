@@ -1,87 +1,134 @@
-@import './_variables.scss';
+@import "./_variables.scss";
 
 * {
-    font-family: 'JetBrains Mono', mono, 'Roboto', sans-serif;
+  font-family: "JetBrains Mono", mono, "Roboto", sans-serif;
 }
 
 ::selection {
-    color: black !important;
-    background: $accent !important;
+  color: black !important;
+  background: $accent !important;
 }
 
 ::-moz-selection {
-    color: black !important;
-    background: $accent !important;
+  color: black !important;
+  background: $accent !important;
 }
 
 ::-webkit-selection {
-    color: black !important;
-    background: $accent !important;
+  color: black !important;
+  background: $accent !important;
 }
 
 .highlight {
-    color: black !important;
-    background: $accent !important;
+  color: black !important;
+  background: $accent !important;
 }
 
 h1 {
-    font-weight: bold;
-    color: $text-primary;
+  font-weight: bold;
+  color: $text-primary;
 
-    @media screen and (max-width: $tablet) {
-        font-size: $font-h1-small;
-        line-height: $font-h1-small * 1.2;
-    }
+  @media screen and (max-width: $tablet) {
+    font-size: $font-h1-small;
+    line-height: $font-h1-small * 1.2;
+  }
 
-    @media screen and (min-width: $tablet) {
-        font-size: $font-h1-large;
-        line-height: $font-h1-large * 1.2;
-    }
+  @media screen and (min-width: $tablet) {
+    font-size: $font-h1-large;
+    line-height: $font-h1-large * 1.2;
+  }
 }
 
 h2 {
-    @media screen and (max-width: $tablet) {
-        font-size: $font-h2-small;
-        line-height: $font-h2-small * 1.2;
-    }
+  @media screen and (max-width: $tablet) {
+    font-size: $font-h2-small;
+    line-height: $font-h2-small * 1.2;
+  }
 
-    @media screen and (min-width: $tablet) {
-        font-size: $font-h2-large;
-        line-height: $font-h2-large * 1.2;
+  @media screen and (min-width: $tablet) {
+    font-size: $font-h2-large;
+    line-height: $font-h2-large * 1.2;
+  }
 
-    }
-
-    font-weight: normal;
-    color: $text-primary;
+  font-weight: normal;
+  color: $text-primary;
 }
 
 h3 {
-    @media screen and (max-width: $tablet) {
-        font-size: $font-h3-small;
-        line-height: $font-h3-small * 1.2;
-    }
+  @media screen and (max-width: $tablet) {
+    font-size: $font-h3-small;
+    line-height: $font-h3-small * 1.2;
+  }
 
-    @media screen and (min-width: $tablet) {
-        font-size: $font-h3-large;
-        line-height: $font-h3-large * 1.2;
+  @media screen and (min-width: $tablet) {
+    font-size: $font-h3-large;
+    line-height: $font-h3-large * 1.2;
+  }
 
-    }
-
-    font-weight: normal;
-    color: $text-primary;
+  font-weight: normal;
+  color: $text-primary;
 }
 
 p {
-    @media screen and (max-width: $tablet) {
-        font-size: $font-p-small ;
-        line-height: $font-p-small * 1.2;
-    }
+  @media screen and (max-width: $tablet) {
+    font-size: $font-p-small;
+    line-height: $font-p-small * 1.2;
+  }
 
-    @media screen and (min-width: $tablet) {
-        font-size: $font-p-large;
-        line-height: $font-p-large * 1.2;
-    }
+  @media screen and (min-width: $tablet) {
+    font-size: $font-p-large;
+    line-height: $font-p-large * 1.2;
+  }
 
-    font-weight: normal;
+  font-weight: normal;
+  color: $text-primary;
+}
+
+a {
+  color: $accent;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s, background-color 0.2s;
+
+  background-color: transparent;
+
+  &:visited,
+  &:active {
     color: $text-primary;
+  }
+
+  &:hover {
+    color: $accent-hover;
+
+    &.hoverEffect {
+      background-color: $accent;
+      color: black;
+    }
+  }
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  padding: 4px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  background: #3636366e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b4b4b6e;
+  border-radius: 16px;
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7777776e;
 }

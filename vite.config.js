@@ -18,7 +18,9 @@ export default defineConfig({
         }
     },
     server: {
-        port: 3000,
+        // Optional: configure your development server if needed
+        // For example, setting a specific port or host
+        port: 3002,
         strictPort: true,
     }
 });
