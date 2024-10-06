@@ -108,7 +108,7 @@ const constructionRoutes = [
 
 const router = createRouter({
   history:
-    import.meta.env.PUBLIC_IS_GH_PAGES == "true"
+    import.meta.env.PUBLIC_ENABLE_HASH_ROUTING == "true"
       ? createWebHashHistory()
       : createWebHistory(),
   routes:
