@@ -48,7 +48,7 @@ import { useSidebarStore } from "@/stores/sidebarStore";
 import { useScreenStore } from "@/stores/screenStore";
 
 import { PropType } from "vue";
-import NavigationPage from "@/types/NavigationPage";
+import NavigationPage from "@/models/NavigationPage";
 
 export default {
   name: "PageButton",

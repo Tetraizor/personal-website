@@ -32,6 +32,10 @@ export default class NavigationPage {
 
     return this.parent;
   }
+
+  setParent(parent: NavigationPage) {
+    this.parent = parent;
+  }
 }
 
 export const pages: NavigationPage[] = [
@@ -45,22 +49,34 @@ export const pages: NavigationPage[] = [
     new NavigationPage("mobile", "", "/mobile", true, []),
     new NavigationPage("desktop", "", "/desktop", true, []),
   ]),
-  new NavigationPage("blog", "posts", "/blog", false, [
-    new NavigationPage("posts", "", "/posts", false, []),
-    new NavigationPage("categories", "", "/categories", false, []),
+  new NavigationPage("blog", "defaultPostView", "/blog", true, [
+    new NavigationPage("defaultPostView", "", "", true, []),
+    new NavigationPage("post", "", "*", true, []),
   ]),
   new NavigationPage("games", "db", "/games", false, [
     new NavigationPage("db", "", "/db", false, []),
   ]),
 ];
 
-const pagesFlat: NavigationPage[] = [];
+const _pagesFlat: NavigationPage[] = [];
 export function getPagesFlat(): NavigationPage[] {
-  if (pagesFlat.length === 0) {
-    pagesFlat.push(...getChildrenRecursive());
+  if (_pagesFlat.length === 0) {
+    _pagesFlat.push(...getChildrenRecursive());
   }
 
-  return pagesFlat;
+  return _pagesFlat;
+}
+
+export function isPageInStack(pageName: string): boolean {
+  const pagesFlat = getPagesFlat();
+
+  for (let i = 0; i < pagesFlat.length; i++) {
+    if (pagesFlat[i].name === pageName) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 export function getPageByName(name: string): NavigationPage {
@@ -73,6 +89,34 @@ export function getPageByName(name: string): NavigationPage {
   }
 
   return pages[0];
+}
+
+export function getPageByUrl(): NavigationPage {
+  const pageNames = window.location.pathname.split("/").filter((p) => p !== "");
+
+  if (pageNames.length === 0) {
+    return getPageByName("about");
+  }
+  if (pageNames.length === 1) {
+    return getPageByName(pageNames[0]) || getPageByName("about");
+  }
+
+  let page: NavigationPage | null = null;
+  for (let i = pageNames.length - 1; i >= 0; i--) {
+    page = isPageInStack(pageNames[i]) ? getPageByName(pageNames[i]) : null;
+
+    if (page != null) {
+      return page;
+    }
+
+    if (i == 0) return getPageByName("about");
+    if (page == null && getPageByName(pageNames[i - 1]) != null) {
+      const page = new NavigationPage(pageNames[i], "", pageNames[i], true, []);
+      page.setParent(getPageByName(pageNames[i - 1]));
+      return page;
+    }
+  }
+  return page || getPageByName("about");
 }
 
 export function getChildrenRecursive(

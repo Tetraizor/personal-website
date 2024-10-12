@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import NavigationPage from "@/types/NavigationPage";
+import NavigationPage from "@/models/NavigationPage";
 import Sidebar from "../components/main/sidebar/Sidebar.vue";
 import PageViewer from "./Main/PageViewer.vue";
 
@@ -28,7 +28,7 @@ export default {
     };
   },
 
-  mounted() {
+  beforeMount() {
     window.matchMedia("(min-width: 768px)").addEventListener("change", () => {
       this.screenStore.setIsMobile(
         !window.matchMedia("(min-width: 768px)").matches

@@ -97,6 +97,10 @@ a {
     color: $text-primary;
   }
 
+  &.highlightSelf {
+    color: $accent;
+  }
+
   &:hover {
     color: $accent-hover;
 

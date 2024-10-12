@@ -35,7 +35,7 @@
 import { watch } from "vue";
 import { useNavigationStore } from "@/stores/navigationStore";
 import { useScreenStore } from "@/stores/screenStore";
-import NavigationPage, { getPageByName } from "@/types/NavigationPage";
+import NavigationPage, { getPageByName } from "@/models/NavigationPage";
 
 export default {
   name: "PageViewer",

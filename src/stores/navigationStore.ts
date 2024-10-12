@@ -1,5 +1,9 @@
 import { defineStore } from "pinia";
-import NavigationPage, { getPageByName, pages } from "@/types/NavigationPage";
+import NavigationPage, {
+  getPageByName,
+  getPageByUrl,
+  pages,
+} from "@/models/NavigationPage";
 
 let switchPage: (page: NavigationPage) => void;
 
@@ -9,11 +13,11 @@ export function switchPageInit(toCall: (page: NavigationPage) => void): void {
 
 export const useNavigationStore = defineStore("navigation", {
   state: () => ({
-    page: getPageByName("about") as NavigationPage,
+    page: getPageByUrl() as NavigationPage,
     canTransitionStack: 0 as number,
   }),
   actions: {
-    changePage(page: NavigationPage) {
+    changePage(page: NavigationPage): void {
       if (page.redirect !== undefined && page.redirect !== "") {
         this.changePage(getPageByName(page.redirect));
         return;
