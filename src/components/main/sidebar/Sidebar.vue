@@ -54,7 +54,7 @@
 import { defineComponent } from "vue";
 import PageButton from "./PageButton.vue";
 import { useSidebarStore } from "@/stores/sidebarStore";
-import NavigationPage, { getPageByName } from "@/types/NavigationPage";
+import NavigationPage, { getPageByName } from "@/models/NavigationPage";
 
 export default defineComponent({
   name: "Sidebar",
@@ -196,8 +196,8 @@ export default defineComponent({
 
     &.collapse {
       @include respond-to(mobile) {
-        left: -55px;
-        top: 16px;
+        left: -65px;
+        top: 25px;
       }
 
       @include respond-to(desktop) {

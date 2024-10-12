@@ -92,7 +92,7 @@
 <script lang="ts">
 import { useNavigationStore } from "@/stores/navigationStore";
 import { useScreenStore } from "@/stores/screenStore";
-import NavigationPage, { getPageByName } from "@/types/NavigationPage";
+import NavigationPage, { getPageByName } from "@/models/NavigationPage";
 import { RouterView } from "vue-router";
 
 export default {

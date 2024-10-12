@@ -13,11 +13,6 @@ export default {
     MainView,
     ConstructionView,
   },
-
-  mounted() {
-    console.log("App mounted");
-    console.log(import.meta.env);
-  },
 };
 </script>
 

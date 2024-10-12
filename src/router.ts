@@ -20,7 +20,11 @@ import GamesView from "./views/Main/GamesView.vue";
 import AboutView from "./views/Main/Me/AboutView.vue";
 import ContactView from "./views/Main/Me/ContactView.vue";
 import SocialsView from "./views/Main/Me/SocialsView.vue";
-import NavigationPage from "./types/NavigationPage";
+import NavigationPage from "./models/NavigationPage";
+
+// "BlogView" Children
+import PostView from "./views/Main/Blog/PostView.vue";
+import DefaultPostView from "./views/Main/Blog/DefaultPostView.vue";
 
 // Default routes to be used when the page is suitable for public viewing.
 const defaultRoutes = [
@@ -79,9 +83,22 @@ const defaultRoutes = [
     component: MainView,
     children: [
       {
-        path: "posts",
-        name: "posts",
+        path: "",
+        name: "blog",
         component: BlogView,
+        children: [
+          {
+            path: "",
+            name: "defaultPostView",
+            component: DefaultPostView,
+          },
+          {
+            path: ":slug",
+            name: "post",
+            component: PostView,
+            props: true,
+          },
+        ],
       },
     ],
   },

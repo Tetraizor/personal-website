@@ -3,7 +3,26 @@
     <div class="content">
       <div class="leftView"></div>
       <div class="rightView">
-        <h1 ref="featuredTitle">featured</h1>
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: end;
+            margin-bottom: 0.4rem;
+          "
+        >
+          <h1>featured</h1>
+          <h1>
+            <a
+              class="highlightSelf"
+              style="line-height: 1.3rem; font-weight: normal"
+              href="/projects"
+            >
+              see all
+            </a>
+          </h1>
+        </div>
         <template v-for="featured in featured" :key="featured.featured_id">
           <featuredContainer :featured="featured" />
         </template>
