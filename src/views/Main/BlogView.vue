@@ -1,12 +1,18 @@
 <template>
   <div class="blogViewWrapper">
     <div class="blogView">
-      <LeftPanel :posts="posts" :loading="loading" @postSelected="goToPost" />
+      <LeftPanel
+        :posts="posts"
+        :loading="loading"
+        ref="leftPanel"
+        @postSelected="goToPost"
+      />
       <div class="rightPanel">
         <router-view v-slot="{ Component }">
           <component
             :is="Component"
             :goToPost="goToPost"
+            @onScroll="onScroll"
             ref="routerComponent"
           />
         </router-view>
@@ -73,6 +79,10 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+    onScroll(event: Event) {
+      const leftPanel = this.$refs.leftPanel as InstanceType<typeof LeftPanel>;
+      leftPanel.handleScroll(event);
     },
   },
 };

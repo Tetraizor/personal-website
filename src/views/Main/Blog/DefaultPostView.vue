@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <div class="wrapper">
+    <div class="wrapper" @scroll="handleScroll">
       <div class="content">
         <h1 style="margin-bottom: 1rem">blog</h1>
         <div class="titleDivider"></div>
@@ -12,6 +12,7 @@
         <h2>pinned</h2>
         <div class="pinnedContainer">
           <template v-for="(post, index) in pinned" :key="index">
+            <PostCard :post="post" />
             <PostCard :post="post" />
           </template>
         </div>
@@ -30,6 +31,7 @@ export default {
   name: "DefaultPostView",
   props: ["goToPost"],
   components: { PostCard },
+  emits: ["onScroll"],
 
   data() {
     return {
@@ -65,6 +67,9 @@ export default {
         this.loading = false;
       }
     },
+    handleScroll(event: Event) {
+      this.$emit("onScroll", event);
+    },
   },
 };
 </script>
@@ -88,6 +93,9 @@ export default {
     padding-bottom: 4rem;
 
     margin: 0 4rem;
+    @include respond-to("mobile") {
+      margin: 0 25px;
+    }
   }
 
   h1 {
@@ -143,5 +151,7 @@ export default {
     grid-template-columns: 1fr 1fr;
   }
   grid-gap: 2rem;
+
+  padding-bottom: 2rem;
 }
 </style>

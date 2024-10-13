@@ -1,6 +1,10 @@
 <template>
   <div class="leftPanel" :class="{ collapsed }">
-    <div class="collapseButton" @click.prevent="collapsed = !collapsed">
+    <div
+      class="collapseButton"
+      :class="{ mobileHide: scrollPercent > 0 }"
+      @click.prevent="collapsed = !collapsed"
+    >
       <i class="bars"></i>
     </div>
     <div class="verticalDivider"></div>
@@ -58,6 +62,8 @@ export default {
     return {
       collapsed: false,
 
+      scrollPercent: 0,
+
       navigationStore: useNavigationStore(),
       screenStore: useScreenStore(),
     };
@@ -77,6 +83,12 @@ export default {
     },
     open() {
       this.collapsed = false;
+    },
+    handleScroll(event: Event) {
+      const target = event.target as HTMLElement;
+      const scrollAmount = target.scrollTop;
+      this.scrollPercent = scrollAmount / 75;
+      if (this.scrollPercent > 1) this.scrollPercent = 1;
     },
   },
 };
@@ -160,7 +172,7 @@ export default {
 
     cursor: pointer;
 
-    transition: left 0.3s;
+    transition: left 0.3s, opacity 0.3s;
 
     .bars {
       background-image: url("@/assets/icons/bars.svg");
@@ -182,6 +194,13 @@ export default {
 
   .collapseButton {
     left: calc(100% + 25px);
+
+    @include respond-to("mobile") {
+      &.mobileHide {
+        pointer-events: none;
+        opacity: 0;
+      }
+    }
   }
 }
 
@@ -202,11 +221,9 @@ export default {
   align-items: center;
 
   width: calc(100% - 50px);
-
-  position: absolute;
-
   height: 100%;
 
+  position: absolute;
   pointer-events: none;
 
   transition: opacity 0.1s;

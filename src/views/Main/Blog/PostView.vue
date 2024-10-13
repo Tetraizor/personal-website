@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <div class="wrapper">
+    <div class="wrapper" @scroll="handleScroll">
       <div class="content">
         <div v-if="post != null && post.content != null">
           <h1 style="margin-bottom: 1rem">
@@ -22,7 +22,11 @@
             </h3>
           </div>
           <div class="titleDivider"></div>
-          <Markdown :source="post.content" :styleOverride="{}"></Markdown>
+          <Markdown
+            class="markdown"
+            :source="post.content"
+            :styleOverride="{}"
+          ></Markdown>
         </div>
         <div v-else-if="error != ''">
           <h1>{{ error }}</h1>
@@ -68,6 +72,8 @@ export default {
     this.updatePost();
   },
 
+  emits: ["onScroll"],
+
   methods: {
     updatePost() {
       this.loading = true;
@@ -92,6 +98,9 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+    },
+    handleScroll(event: Event) {
+      this.$emit("onScroll", event);
     },
   },
 
@@ -132,6 +141,9 @@ export default {
     padding-bottom: 4rem;
 
     margin: 0 4rem;
+    @include respond-to("mobile") {
+      margin: 0 25px;
+    }
   }
 
   h1 {
@@ -146,5 +158,9 @@ export default {
     background-color: $accent;
     margin-bottom: 2rem;
   }
+}
+
+.markdown {
+  padding-bottom: 1rem;
 }
 </style>
