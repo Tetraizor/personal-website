@@ -6,6 +6,7 @@
         :loading="loading"
         ref="leftPanel"
         @postSelected="goToPost"
+        @update:searchName="(searchName) => (filterSearchName = searchName)"
       />
       <div class="rightPanel">
         <router-view v-slot="{ Component }">
@@ -40,7 +41,12 @@ export default {
     return {
       navigationStore: useNavigationStore(),
       posts: [] as Post[],
+      postsTemp: [] as Post[],
       loading: false,
+
+      filterSearchName: "",
+
+      searchCallStack: [] as Function[],
 
       screenStore: useScreenStore(),
     };
@@ -62,17 +68,32 @@ export default {
       page.setParent(getPageByName("blog"));
       this.navigationStore.changePage(page);
     },
+
     async fetchPostList() {
       try {
-        const response = await axios.get(
-          import.meta.env.PUBLIC_SERVICE_URL + "/api/posts?service=getPostList"
-        );
+        let url =
+          import.meta.env.PUBLIC_SERVICE_URL + "/api/posts?service=getPostList";
+        if (this.filterSearchName !== "") {
+          url += `&search=${this.filterSearchName}`;
+        }
 
-        const postsResponse = response.data.posts;
+        const response = await axios.get(url);
+        const postsResponse: Post[] = response.data.posts;
 
-        for (const item of postsResponse) {
+        this.postsTemp = [];
+        this.postsTemp.push(...postsResponse);
+
+        this.posts = [];
+
+        for (const post of postsResponse) {
           await new Promise((resolve) => setTimeout(resolve, 150));
-          this.posts.push(item);
+
+          for (const tempPost of this.postsTemp) {
+            if (post.post_id === tempPost.post_id) {
+              this.posts.push(post);
+              this.postsTemp.splice(this.postsTemp.indexOf(tempPost), 1);
+            }
+          }
         }
       } catch (err) {
         console.error(err);
@@ -80,9 +101,31 @@ export default {
         this.loading = false;
       }
     },
+
     onScroll(event: Event) {
       const leftPanel = this.$refs.leftPanel as InstanceType<typeof LeftPanel>;
       leftPanel.handleScroll(event);
+    },
+
+    debounce(func: Function, wait: number) {
+      this.searchCallStack.push(func);
+
+      setTimeout(() => {
+        if (this.searchCallStack.length === 0) return;
+
+        const func = this.searchCallStack.pop();
+        this.searchCallStack = [];
+
+        if (func) func();
+      }, wait);
+    },
+  },
+
+  watch: {
+    filterSearchName() {
+      this.debounce(() => {
+        this.fetchPostList();
+      }, 500);
     },
   },
 };

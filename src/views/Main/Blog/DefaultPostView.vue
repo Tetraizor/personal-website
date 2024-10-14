@@ -9,11 +9,10 @@
           literally any topic that comes to mind—often at times when I should be
           doing things.
         </p>
-        <h2>pinned</h2>
+        <h2 style="font-weight: normal">pinned</h2>
         <div class="pinnedContainer">
           <template v-for="(post, index) in pinned" :key="index">
-            <PostCard :post="post" />
-            <PostCard :post="post" />
+            <PostCard :post="post" :goToPost="goToPost" />
           </template>
         </div>
       </div>
@@ -29,7 +28,7 @@ import axios from "axios";
 
 export default {
   name: "DefaultPostView",
-  props: ["goToPost"],
+  props: ["goToPost", "goToPost"],
   components: { PostCard },
   emits: ["onScroll"],
 

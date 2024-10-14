@@ -194,6 +194,38 @@ export default defineComponent({
     transform: rotate(0deg);
     transition: left 0.5s, transform 0.5s, top 0.5s ease-in-out;
 
+    animation: bounce 1s ease-in-out forwards;
+
+    @keyframes bounce {
+      0% {
+        top: 25px;
+      }
+
+      20% {
+        top: 25px;
+      }
+
+      40% {
+        top: 10px;
+      }
+
+      60% {
+        top: 25px;
+      }
+
+      62% {
+        top: 25px;
+      }
+
+      80% {
+        top: 15px;
+      }
+
+      100% {
+        top: 25px;
+      }
+    }
+
     &.collapse {
       @include respond-to(mobile) {
         left: -65px;

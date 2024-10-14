@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import NavigationPage from "@/models/NavigationPage";
-import Sidebar from "../components/main/sidebar/Sidebar.vue";
+import Sidebar from "@/components/Main/Sidebar/Sidebar.vue";
 import PageViewer from "./Main/PageViewer.vue";
 
 import { useNavigationStore } from "@/stores/navigationStore";
