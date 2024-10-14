@@ -34,7 +34,7 @@
 <script lang="ts">
 import { useNavigationStore } from "@/stores/navigationStore";
 import { useScreenStore } from "@/stores/screenStore";
-import featuredContainer from "@/components/Me/about/FeaturedContainer.vue";
+import featuredContainer from "@/components/Me/About/FeaturedContainer.vue";
 import FeaturedItemType from "@/interface/FeaturedItemType";
 import axios from "axios";
 
