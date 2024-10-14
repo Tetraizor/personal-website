@@ -1,6 +1,6 @@
 <template>
   <div class="searchBar">
-    <input :placeholder="placeholder" />
+    <input :placeholder="placeholder" :value="modelValue" @input="onInput" />
     <i class="icon"></i>
   </div>
 </template>
@@ -13,14 +13,23 @@ export default {
       type: String,
       default: "Search",
     },
+    modelValue: {
+      type: String,
+      default: "",
+    },
   },
   components: {},
+  emits: ["update:modelValue"],
 
   data() {
     return {};
   },
 
-  methods: {},
+  methods: {
+    onInput(event: Event) {
+      this.$emit("update:modelValue", (event.target as HTMLInputElement).value);
+    },
+  },
 };
 </script>
 

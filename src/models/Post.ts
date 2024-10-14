@@ -5,6 +5,8 @@ export default class Post {
   tags: string[];
   url_string: string;
   views: number = 0;
+  thumbnail_url: string = "";
+  post_id: string = "";
 
   constructor(
     title: string,

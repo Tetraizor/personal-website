@@ -14,7 +14,7 @@
           <i class="spinner"></i>
         </div>
         <h1 style="font-weight: normal; margin-bottom: 0.6rem">Posts</h1>
-        <SearchBar />
+        <SearchBar v-model="searchName" />
         <template v-if="!loading">
           <template v-if="posts.length > 0">
             <div class="scroll">
@@ -56,13 +56,15 @@ export default {
     },
   },
   components: { SearchBar, PostButton },
-  emits: ["postSelected"],
+  emits: ["postSelected", "update:searchName"],
 
   data() {
     return {
       collapsed: false,
 
       scrollPercent: 0,
+
+      searchName: "",
 
       navigationStore: useNavigationStore(),
       screenStore: useScreenStore(),
@@ -75,6 +77,12 @@ export default {
     } else {
       this.open();
     }
+  },
+
+  watch: {
+    searchName() {
+      this.$emit("update:searchName", this.searchName);
+    },
   },
 
   methods: {
@@ -99,7 +107,7 @@ export default {
   height: 100%;
   width: 100%;
 
-  max-width: 500px;
+  max-width: 400px;
   @include respond-to("mobile") {
     max-width: 100%;
     position: absolute;
@@ -148,7 +156,7 @@ export default {
     position: relative;
 
     height: 100%;
-    width: 500px;
+    width: 400px;
     @include respond-to("mobile") {
       width: 100%;
     }
