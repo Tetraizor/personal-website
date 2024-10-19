@@ -21,8 +21,20 @@ export function getDifferenceInDaysFormatted(date1: Date, date2: Date) {
       return `${months} months ago`;
     }
   } else if (diff > 7) {
-    return `${diff / 7} weeks ago`;
+    if (diff < 14) {
+      return "1 week ago";
+    }
+    return `${Math.floor(diff / 7)} weeks ago`;
   } else {
     return `${diff} days ago`;
   }
+}
+
+export function getFormattedDate(date: Date): string {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return date.toLocaleDateString(undefined, options);
 }

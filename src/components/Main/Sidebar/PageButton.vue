@@ -1,7 +1,12 @@
 <template>
   <div
     class="pageButton"
-    :class="{ selected: selected, expanded: expanded, hover: hover }"
+    :class="{
+      selected: selected,
+      expanded: expanded,
+      hover: hover,
+      disabled: disabled,
+    }"
     @mouseenter="
       {
         hover = true;
@@ -36,7 +41,7 @@
           (selected || animatedText.length > 0 || screenStore.isMobile)
         "
       >
-        {{ buttonDescription }}
+        {{ disabled ? "currently in progress" : buttonDescription }}
       </h3>
     </div>
   </div>
@@ -65,6 +70,10 @@ export default {
       type: NavigationPage as PropType<NavigationPage>,
       required: true,
     },
+    disabled: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
   },
 
   components: {},
@@ -85,7 +94,11 @@ export default {
 
   computed: {
     selected() {
-      return this.$props.pageData === this.navigationStore.currentPage;
+      return (
+        this.$props.pageData.name === this.navigationStore.currentPage.name ||
+        this.$props.pageData.name ===
+          this.navigationStore.currentPage.parent?.name
+      );
     },
 
     buttonDescription() {
@@ -122,7 +135,7 @@ export default {
     },
 
     async clicked() {
-      if (!this.navigationStore.canTransition) return;
+      if (!this.navigationStore.canTransition || this.disabled) return;
 
       this.$emit("sidebarButtonPressed", this.pageData);
     },
@@ -188,12 +201,12 @@ export default {
 
   // Transition Properties
   height: 5rem;
-  background-color: $button-primary;
+  background-color: $button-primary-transparent;
   transition: background-color 0.2s ease-in, height 0.2s ease-in;
 
   &.selected,
   &.hover {
-    background-color: $button-primary-selected;
+    background-color: $button-primary-transparent-hover;
     transition: background-color 0.2s ease-in;
     height: 7.5rem;
   }
@@ -201,6 +214,11 @@ export default {
   &.expanded {
     height: 7.5rem;
     transition: height 0.2s ease-in;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
   }
 
   .content {
@@ -240,7 +258,8 @@ export default {
     transition: border 0.6s ease-in;
 
     &.selected,
-    &.expanded {
+    &.expanded,
+    &.hover {
       border: $outline-width-large dashed $button-accent-selected;
       @media screen and (max-width: $tablet) {
         border: $outline-width-small dashed $button-accent-selected;
@@ -251,6 +270,7 @@ export default {
   .tlCorner {
     border-left: $outline-width-large solid $button-accent;
     border-top: $outline-width-large solid $button-accent;
+
     @media screen and (max-width: $tablet) {
       border-left: $outline-width-small solid $button-accent;
       border-top: $outline-width-small solid $button-accent;
@@ -262,6 +282,7 @@ export default {
     &.expanded {
       border-left: $outline-width-large solid $button-accent-selected;
       border-top: $outline-width-large solid $button-accent-selected;
+
       @media screen and (max-width: $tablet) {
         border-left: $outline-width-small solid $button-accent-selected;
         border-top: $outline-width-small solid $button-accent-selected;
@@ -285,6 +306,7 @@ export default {
   .brCorner {
     border-right: $outline-width-large solid $button-accent;
     border-bottom: $outline-width-large solid $button-accent;
+
     @media screen and (max-width: $tablet) {
       border-right: $outline-width-small solid $button-accent;
       border-bottom: $outline-width-small solid $button-accent;
@@ -296,6 +318,7 @@ export default {
     &.expanded {
       border-right: $outline-width-large solid $button-accent-selected;
       border-bottom: $outline-width-large solid $button-accent-selected;
+
       @media screen and (max-width: $tablet) {
         border-right: $outline-width-small solid $button-accent-selected;
         border-bottom: $outline-width-small solid $button-accent-selected;

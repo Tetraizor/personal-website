@@ -102,9 +102,9 @@ export default {
       }
     },
 
-    onScroll(event: Event) {
+    onScroll(scrollAmount: number) {
       const leftPanel = this.$refs.leftPanel as InstanceType<typeof LeftPanel>;
-      leftPanel.handleScroll(event);
+      leftPanel.handleScroll(scrollAmount);
     },
 
     debounce(func: Function, wait: number) {

@@ -6,6 +6,9 @@
       :style="transitionData"
       ref="wrapper"
     >
+      <div class="content">
+        <RouterView></RouterView>
+      </div>
       <div
         class="cross tl"
         :class="{
@@ -24,15 +27,11 @@
         }"
         :style="crossData"
       ></div>
-      <div class="content">
-        <RouterView></RouterView>
-      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { watch } from "vue";
 import { useNavigationStore } from "@/stores/navigationStore";
 import { useScreenStore } from "@/stores/screenStore";
 import NavigationPage, { getPageByName } from "@/models/NavigationPage";
@@ -113,7 +112,12 @@ export default {
 
 <style scoped lang="scss">
 .pageViewerWrapper {
-  background-color: $background-primary;
+  // background-color: $background-primary;
+  background-image: linear-gradient(
+    180deg,
+    $background-primary 0%,
+    $background-primary-alternative 100%
+  );
 
   flex-grow: 1;
 

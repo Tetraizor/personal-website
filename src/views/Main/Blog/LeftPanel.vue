@@ -92,9 +92,7 @@ export default {
     open() {
       this.collapsed = false;
     },
-    handleScroll(event: Event) {
-      const target = event.target as HTMLElement;
-      const scrollAmount = target.scrollTop;
+    handleScroll(scrollAmount: number) {
       this.scrollPercent = scrollAmount / 75;
       if (this.scrollPercent > 1) this.scrollPercent = 1;
     },
@@ -122,7 +120,7 @@ export default {
   overflow-y: visible;
   overflow-x: visible;
 
-  background-color: $background-secondary;
+  background-color: $background-primary;
 
   background-image: url("@/assets/patterns/pattern.svg");
   background-repeat: repeat;

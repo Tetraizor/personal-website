@@ -15,7 +15,7 @@
             "
           >
             <h3 style="opacity: 0.8; font-weight: normal">
-              {{ daysSince }}
+              {{ date }}
             </h3>
             <h3 style="opacity: 0.8; font-weight: normal">
               {{ post?.views || 0 }} views
@@ -39,7 +39,10 @@
 </template>
 
 <script lang="ts">
-import { getDifferenceInDaysFormatted } from "@/utils/dateUtils";
+import {
+  getDifferenceInDaysFormatted,
+  getFormattedDate,
+} from "@/utils/dateUtils";
 import { useNavigationStore } from "@/stores/navigationStore";
 import { useScreenStore } from "@/stores/screenStore";
 import Markdown from "@/components/Markdown.vue";
@@ -70,6 +73,8 @@ export default {
 
   mounted() {
     this.updatePost();
+
+    this.updateScrollAmount(0);
   },
 
   emits: ["onScroll"],
@@ -100,17 +105,19 @@ export default {
         });
     },
     handleScroll(event: Event) {
-      this.$emit("onScroll", event);
+      const target = event.target as HTMLElement;
+      const scrollAmount = target.scrollTop;
+      this.updateScrollAmount(scrollAmount);
+    },
+    updateScrollAmount(scrollAmount: number) {
+      this.$emit("onScroll", scrollAmount);
     },
   },
 
   computed: {
-    daysSince(): string {
+    date(): string {
       if (this.post == null) return "";
-      return getDifferenceInDaysFormatted(
-        new Date(this.post?.created_at),
-        new Date()
-      );
+      return getFormattedDate(new Date(this.post?.created_at));
     },
   },
 
@@ -150,6 +157,11 @@ export default {
     font-size: 3rem;
     line-height: 4rem;
     font-weight: bolder;
+
+    @include respond-to("mobile") {
+      font-size: 2rem;
+      line-height: 3rem;
+    }
   }
 
   .titleDivider {

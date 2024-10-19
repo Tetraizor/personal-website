@@ -17,10 +17,10 @@ import ProjectsView from "./views/Main/ProjectsView.vue";
 import GamesView from "./views/Main/GamesView.vue";
 
 // "MeView" Children
-import AboutView from "./views/Main/Me/AboutView.vue";
-import ContactView from "./views/Main/Me/ContactView.vue";
-import SocialsView from "./views/Main/Me/SocialsView.vue";
 import NavigationPage from "./models/NavigationPage";
+import PastView from "./views/Main/Me/PastView.vue";
+import PresentView from "./views/Main/Me/PresentView.vue";
+import FutureView from "./views/Main/Me/FutureView.vue";
 
 // "BlogView" Children
 import PostView from "./views/Main/Blog/PostView.vue";
@@ -38,52 +38,24 @@ const defaultRoutes = [
         component: MeView,
         children: [
           {
+            path: "/past",
+            name: "past",
+            component: PastView,
+          },
+          {
             path: "/",
-            name: "about",
-            component: AboutView,
+            name: "present",
+            component: PresentView,
           },
           {
-            path: "/contact",
-            name: "contact",
-            component: ContactView,
-          },
-          {
-            path: "/socials",
-            name: "socials",
-            component: SocialsView,
+            path: "/future",
+            name: "future",
+            component: FutureView,
           },
         ],
       },
-    ],
-  },
-  {
-    path: "/games",
-    component: MainView,
-    children: [
       {
-        path: "db",
-        name: "db",
-        component: GamesView,
-      },
-    ],
-  },
-  {
-    path: "/projects",
-    component: MainView,
-    children: [
-      {
-        path: "projects",
-        name: "projects",
-        component: ProjectsView,
-      },
-    ],
-  },
-  {
-    path: "/blog",
-    component: MainView,
-    children: [
-      {
-        path: "",
+        path: "/blog",
         name: "blog",
         component: BlogView,
         children: [
@@ -99,6 +71,14 @@ const defaultRoutes = [
             props: true,
           },
         ],
+      },
+      {
+        path: "/games",
+        component: GamesView,
+      },
+      {
+        path: "/projects",
+        component: ProjectsView,
       },
     ],
   },

@@ -101,6 +101,11 @@ export default {
     font-size: 3rem;
     line-height: 4rem;
     font-weight: bolder;
+
+    @include respond-to("mobile") {
+      font-size: 2rem;
+      line-height: 3rem;
+    }
   }
 
   h2 {

@@ -69,7 +69,8 @@ h3 {
   color: $text-primary;
 }
 
-p {
+p,
+li {
   @media screen and (max-width: $tablet) {
     font-size: $font-p-small;
     line-height: $font-p-small * 1.2;
@@ -82,6 +83,11 @@ p {
 
   font-weight: normal;
   color: $text-primary;
+}
+
+ul {
+  list-style-type: square;
+  margin-left: 2.2rem;
 }
 
 a {
@@ -113,6 +119,19 @@ a {
 
 .underline {
   text-decoration: underline;
+}
+
+.icon-link {
+  color: $text-primary;
+  text-decoration: none;
+
+  background-image: url("@/assets/icons/link.svg");
+
+  background-size: 1rem;
+  background-repeat: no-repeat;
+
+  width: 1rem;
+  height: 1rem;
 }
 
 ::-webkit-scrollbar {

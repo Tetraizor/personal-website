@@ -39,16 +39,12 @@ export default class NavigationPage {
 }
 
 export const pages: NavigationPage[] = [
-  new NavigationPage("me", "about", "/", false, [
-    new NavigationPage("about", "", "about", false, []),
-    new NavigationPage("contact", "", "contact", true, []),
-    new NavigationPage("socials", "", "socials", true, []),
+  new NavigationPage("me", "present", "/", false, [
+    new NavigationPage("past", "", "past", false, []),
+    new NavigationPage("present", "", "present", false, []),
+    new NavigationPage("future", "", "future", false, []),
   ]),
-  new NavigationPage("projects", "web", "/projects", true, [
-    new NavigationPage("web", "", "/web", true, []),
-    new NavigationPage("mobile", "", "/mobile", true, []),
-    new NavigationPage("desktop", "", "/desktop", true, []),
-  ]),
+  new NavigationPage("projects", "", "/projects", true),
   new NavigationPage("blog", "defaultPostView", "/blog", true, [
     new NavigationPage("defaultPostView", "", "", true, []),
     new NavigationPage("post", "", "*", true, []),

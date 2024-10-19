@@ -24,13 +24,6 @@
             @sidebarButtonPressed="() => sidebarButtonPressed('me')"
           />
           <PageButton
-            title="games."
-            description="my takes on video games, compiled into a neat database."
-            :pageData="getPageByName('games')"
-            :selectedIndex="selectedIndex"
-            @sidebarButtonPressed="() => sidebarButtonPressed('games')"
-          />
-          <PageButton
             title="blog."
             description="my thoughts, lined up."
             :pageData="getPageByName('blog')"
@@ -38,10 +31,19 @@
             @sidebarButtonPressed="() => sidebarButtonPressed('blog')"
           />
           <PageButton
+            title="games."
+            description="my takes on video games, compiled into a list"
+            :pageData="getPageByName('games')"
+            :selectedIndex="selectedIndex"
+            :disabled="true"
+            @sidebarButtonPressed="() => sidebarButtonPressed('games')"
+          />
+          <PageButton
             title="projects."
             description="projects i did and hopefully will do."
             :pageData="getPageByName('projects')"
             :selectedIndex="selectedIndex"
+            :disabled="true"
             @sidebarButtonPressed="() => sidebarButtonPressed('projects')"
           />
         </div>
@@ -284,7 +286,7 @@ export default defineComponent({
 
   height: 100%;
 
-  background-color: $background-secondary;
+  background-color: $background-primary;
 
   background-image: url("@/assets/patterns/pattern.svg");
   background-repeat: repeat;

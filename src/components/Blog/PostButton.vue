@@ -82,7 +82,7 @@ export default {
   border-style: solid;
 
   backdrop-filter: blur(6px);
-  background-color: $background-tertiary-transparent;
+  background-color: $button-primary-transparent;
 
   @keyframes slideIn {
     from {
@@ -96,16 +96,16 @@ export default {
   animation: slideIn 0.3s ease;
 
   &.selected {
-    background-color: $background-secondary-transparent;
+    background-color: $button-primary-transparent-selected;
     border-color: $accent;
 
     &:hover {
-      background-color: $background-secondary;
+      background-color: $button-primary-transparent;
     }
   }
 
   &:hover {
-    background-color: $background-tertiary;
+    background-color: $button-primary-transparent-hover;
   }
 
   h1 {

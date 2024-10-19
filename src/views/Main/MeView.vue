@@ -14,33 +14,31 @@
               <div
                 class="navButton"
                 :class="{
-                  notSelected: navigationStore.currentPageName !== 'about',
+                  notSelected: navigationStore.currentPageName !== 'past',
                 }"
-                @click.prevent="() => changePage('about')"
+                @click.prevent="() => changePage('past')"
               >
-                <h2>about</h2>
+                <h2>past</h2>
               </div>
               <div
                 class="navButton"
                 :class="{
-                  notSelected: navigationStore.currentPageName !== 'socials',
+                  notSelected:
+                    navigationStore.currentPageName !== 'present' &&
+                    navigationStore.currentPageName !== 'me',
                 }"
-                @click.prevent="
-                  () => navigationStore.changePageByName('socials')
-                "
+                @click.prevent="() => changeTab('present')"
               >
-                <h2>socials</h2>
+                <h2>present</h2>
               </div>
               <div
                 class="navButton"
                 :class="{
-                  notSelected: navigationStore.currentPageName !== 'contact',
+                  notSelected: navigationStore.currentPageName !== 'future',
                 }"
-                @click.prevent="
-                  () => navigationStore.changePageByName('contact')
-                "
+                @click.prevent="() => changeTab('future')"
               >
-                <h2>contact</h2>
+                <h2>future</h2>
               </div>
             </nav>
           </template>
@@ -50,40 +48,38 @@
             <span
               class="navButton"
               :class="{
-                selected: navigationStore.currentPageName !== 'about',
+                notSelected: navigationStore.currentPageName !== 'past',
               }"
-              @click.prevent="() => navigationStore.changePageByName('about')"
+              @click.prevent="() => changeTab('past')"
             >
-              <h2>about</h2>
+              <h2>past</h2>
             </span>
             <span
               class="navButton"
               :class="{
-                selected: navigationStore.currentPageName !== 'socials',
+                notSelected:
+                  navigationStore.currentPageName !== 'present' &&
+                  navigationStore.currentPageName !== 'me',
               }"
-              @click.prevent="() => navigationStore.changePageByName('socials')"
+              @click.prevent="() => changeTab('present')"
             >
-              <h2>socials</h2>
+              <h2>present</h2>
             </span>
             <span
               class="navButton"
               :class="{
-                selected: navigationStore.currentPageName !== 'contact',
+                notSelected: navigationStore.currentPageName !== 'future',
               }"
-              @click.prevent="() => navigationStore.changePageByName('contact')"
+              @click.prevent="() => changeTab('future')"
             >
-              <h2>contact</h2>
+              <h2>future</h2>
             </span>
           </div>
         </template>
       </div>
       <hr style="width: 100%" />
       <div class="body">
-        <router-view v-slot="{ Component }">
-          <transition name="slide" mode="out-in">
-            <component :is="Component" />
-          </transition>
-        </router-view>
+        <AboutView ref="aboutView" />
       </div>
     </div>
   </div>
@@ -93,12 +89,12 @@
 import { useNavigationStore } from "@/stores/navigationStore";
 import { useScreenStore } from "@/stores/screenStore";
 import NavigationPage, { getPageByName } from "@/models/NavigationPage";
-import { RouterView } from "vue-router";
+import AboutView from "./Me/AboutView.vue";
 
 export default {
   name: "Me",
   props: ["index"],
-  components: {},
+  components: { AboutView },
 
   data() {
     return {
@@ -113,6 +109,10 @@ export default {
     },
     getPageByName(name: string): NavigationPage {
       return getPageByName(name);
+    },
+    changeTab(tab: string) {
+      this.navigationStore.changePageByName(tab);
+      (this.$refs.aboutView as InstanceType<typeof AboutView>).scrollToTop();
     },
   },
 };
