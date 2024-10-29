@@ -1,10 +1,11 @@
 <template>
-  <div
+  <a
     class="featuredContainer"
-    ref="container"
     :class="{ active: screenStore.isMobile || hovering }"
     @mouseover="hovering = true"
     @mouseleave="hovering = false"
+    ref="container"
+    :href="featured?.target_url || '#'"
   >
     <div style="height: 100%">
       <div
@@ -32,7 +33,7 @@
       </div>
       <div class="heightFixer"></div>
     </div>
-  </div>
+  </a>
 </template>
 
 <script lang="ts">
@@ -106,6 +107,8 @@ export default defineComponent({
 
   background-image: url("@/assets/patterns/pattern.svg");
   background-size: 400px;
+
+  display: block;
 
   cursor: pointer;
 

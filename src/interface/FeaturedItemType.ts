@@ -3,5 +3,6 @@ export default interface FeaturedItemType {
   title: string;
   content: string;
   thumbnail_url: string;
+  target_url: string;
   created_at: string;
 }
