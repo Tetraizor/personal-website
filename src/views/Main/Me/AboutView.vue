@@ -1,44 +1,63 @@
 <template>
-  <div class="aboutPage" ref="aboutPage">
+  <div
+    class="aboutPage"
+    ref="aboutPage"
+  >
     <div class="content">
       <div class="leftViewWrapper">
         <div class="leftView">
           <RouterView v-slot="{ Component }">
-            <Transition name="slide" mode="out-in">
+            <Transition
+              name="slide"
+              mode="out-in"
+            >
               <Component :is="Component" />
             </Transition>
           </RouterView>
           <div style="flex: 1"></div>
           <div class="contact">
-            <a class="contactCard open" href="mailto://me@umuthanozel.com">
+            <a
+              class="contactCard open"
+              href="mailto://me@umuthanozel.com"
+            >
               <div class="icon mail"></div>
               <h1>me@umuthanozel.com</h1>
             </a>
-            <a class="contactCard" href="https://www.github.com/Tetraizor">
+            <a
+              class="contactCard"
+              href="https://www.github.com/Tetraizor"
+            >
               <div class="icon github"></div>
             </a>
-            <div class="contactCard" @click.prevent="showAlert">
+            <div
+              class="contactCard"
+              @click.prevent="showAlert"
+            >
               <div class="icon discord"></div>
             </div>
-            <a class="contactCard" href="https://linkedin.com/in/umuthan-ozel">
+            <a
+              class="contactCard"
+              href="https://linkedin.com/in/umuthan-ozel"
+            >
               <div class="icon linkedin"></div>
             </a>
           </div>
         </div>
       </div>
       <div class="rightView">
-        <div
-          style="
+        <div style="
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: end;
             margin-bottom: 1.6rem;
-          "
-        >
+          ">
           <h1 class="underline">featured</h1>
         </div>
-        <template v-for="featured in featured" :key="featured.featured_id">
+        <template
+          v-for="featured in featured"
+          :key="featured.featured_id"
+        >
           <featuredContainer :featured="featured" />
         </template>
       </div>
@@ -52,6 +71,7 @@ import { useNavigationStore } from "@/stores/navigationStore";
 import { useScreenStore } from "@/stores/screenStore";
 import featuredContainer from "@/components/Me/About/FeaturedContainer.vue";
 import FeaturedItemType from "@/interface/FeaturedItemType";
+import API_CONFIG from "@/config/apiConfig";
 
 export default {
   name: "AboutView",
@@ -70,10 +90,10 @@ export default {
   methods: {
     getFeatured() {
       axios
-        .get(import.meta.env.PUBLIC_SERVICE_URL + "/api/featured")
+        .get(API_CONFIG.FEATURED.GET_ALL)
         .then(async (res) => {
           await new Promise((resolve) => setTimeout(resolve, 300));
-          const featuredItems = res.data.featured;
+          const featuredItems = res.data.featuredItems;
 
           for (let i = 0; i < featuredItems.length; i++) {
             await new Promise((resolve) => setTimeout(resolve, 150));
@@ -131,6 +151,7 @@ export default {
     padding-left: 2rem;
     padding-right: 2rem;
   }
+
   @include respond-to(desktop) {
     padding-left: 4rem;
     padding-right: 4rem;
@@ -143,6 +164,7 @@ export default {
     min-height: 2px;
 
     background-color: $text-primary;
+
     @include respond-to(mobile) {
       background-color: transparent;
     }
@@ -206,6 +228,7 @@ export default {
     @include respond-to(mobile) {
       width: 100%;
     }
+
     @include respond-to(desktop) {
       padding-right: 2rem;
       margin-right: 3rem;
@@ -239,6 +262,7 @@ export default {
     @include respond-to(mobile) {
       width: 100%;
     }
+
     @include respond-to(desktop) {
       flex: 1;
 

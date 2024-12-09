@@ -1,19 +1,20 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <div class="wrapper" @scroll="handleScroll">
+    <div
+      class="wrapper"
+      @scroll="handleScroll"
+    >
       <div class="content">
         <div v-if="post != null && post.content != null">
           <h1 style="margin-bottom: 1rem">
             {{ post?.title }}
           </h1>
-          <div
-            style="
+          <div style="
               display: flex;
               flex-direction: row;
               justify-content: space-between;
               margin-bottom: 0.5rem;
-            "
-          >
+            ">
             <h3 style="opacity: 0.8; font-weight: normal">
               {{ date }}
             </h3>
@@ -49,6 +50,7 @@ import Markdown from "@/components/Markdown.vue";
 import Post from "@/models/Post";
 import axios from "axios";
 import LoadingPanel from "@/components/LoadingPanel.vue";
+import API_CONFIG from "@/config/apiConfig";
 
 export default {
   name: "PostView",
@@ -84,12 +86,7 @@ export default {
       this.loading = true;
       this.error = "";
 
-      axios
-        .get(
-          import.meta.env.PUBLIC_SERVICE_URL +
-            "/api/posts?service=getPostByUrlString&url_string=" +
-            this.slug
-        )
+      axios.get(API_CONFIG.BLOG.GET_POST_BY_URL_STRING + "?url_string=" + this.slug)
         .then(async (res) => {
           await new Promise((resolve) => setTimeout(resolve, 300));
           this.post = res.data.post;
@@ -148,6 +145,7 @@ export default {
     padding-bottom: 4rem;
 
     margin: 0 4rem;
+
     @include respond-to("mobile") {
       margin: 0 25px;
     }

@@ -1,6 +1,9 @@
 <template>
   <div style="width: 100%; height: 100%">
-    <div class="wrapper" @scroll="handleScroll">
+    <div
+      class="wrapper"
+      @scroll="handleScroll"
+    >
       <div class="content">
         <h1 style="margin-bottom: 1rem">blog</h1>
         <div class="titleDivider"></div>
@@ -11,8 +14,14 @@
         </p>
         <h2 style="font-weight: normal">pinned</h2>
         <div class="pinnedContainer">
-          <template v-for="(post, index) in pinned" :key="index">
-            <PostCard :post="post" :goToPost="goToPost" />
+          <template
+            v-for="(post, index) in pinned"
+            :key="index"
+          >
+            <PostCard
+              :post="post"
+              :goToPost="goToPost"
+            />
           </template>
         </div>
       </div>
@@ -25,6 +34,7 @@ import Post from "@/models/Post";
 import { useNavigationStore } from "@/stores/navigationStore";
 import PostCard from "@/components/Blog/PostCard.vue";
 import axios from "axios";
+import API_CONFIG from "@/config/apiConfig";
 
 export default {
   name: "DefaultPostView",
@@ -50,8 +60,7 @@ export default {
     async fetchPinnedList() {
       try {
         const response = await axios.get(
-          import.meta.env.PUBLIC_SERVICE_URL +
-            "/api/posts?service=getPostList&pinned"
+          API_CONFIG.BLOG.GET_ALL_POSTS + "?pinned"
         );
 
         const pinnedResponse = response.data.posts;
@@ -92,6 +101,7 @@ export default {
     padding-bottom: 4rem;
 
     margin: 0 4rem;
+
     @include respond-to("mobile") {
       margin: 0 25px;
     }
@@ -151,9 +161,11 @@ export default {
   display: grid;
 
   grid-template-columns: 1fr;
+
   @include respond-to("xlarge") {
     grid-template-columns: 1fr 1fr;
   }
+
   grid-gap: 2rem;
 
   padding-bottom: 2rem;

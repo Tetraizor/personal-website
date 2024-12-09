@@ -29,6 +29,7 @@ import LeftPanel from "./Blog/LeftPanel.vue";
 import Post from "@/models/Post";
 import axios from "axios";
 import { useScreenStore } from "@/stores/screenStore";
+import API_CONFIG from "@/config/apiConfig";
 
 export default {
   name: "Blog",
@@ -71,8 +72,7 @@ export default {
 
     async fetchPostList() {
       try {
-        let url =
-          import.meta.env.PUBLIC_SERVICE_URL + "/api/posts?service=getPostList";
+        let url = API_CONFIG.BLOG.GET_ALL_POSTS;
         if (this.filterSearchName !== "") {
           url += `&search=${this.filterSearchName}`;
         }
