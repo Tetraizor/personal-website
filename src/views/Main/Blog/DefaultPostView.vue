@@ -60,7 +60,7 @@ export default {
     async fetchPinnedList() {
       try {
         const response = await axios.get(
-          API_CONFIG.BLOG.GET_ALL_POSTS + "?pinned"
+          API_CONFIG.BLOG.GET_POSTS + "?pinned"
         );
 
         const pinnedResponse = response.data.posts;

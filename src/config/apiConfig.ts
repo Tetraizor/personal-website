@@ -2,7 +2,7 @@ const BASE_URL = import.meta.env.PUBLIC_SERVICE_URL + "/api";
 
 const API_CONFIG = {
   BLOG: {
-    GET_ALL_POSTS: `${BASE_URL}/blog/getAllPosts`,
+    GET_POSTS: `${BASE_URL}/blog/getPosts`,
     GET_POST: `${BASE_URL}/blog/getPost`,
     UPDATE_POST: `${BASE_URL}/blog/updatePost`,
     CREATE_POST: `${BASE_URL}/blog/createPost`,

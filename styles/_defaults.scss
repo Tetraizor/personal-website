@@ -121,19 +121,6 @@ a {
   text-decoration: underline;
 }
 
-.icon-link {
-  color: $text-primary;
-  text-decoration: none;
-
-  background-image: url("@/assets/icons/link.svg");
-
-  background-size: 1rem;
-  background-repeat: no-repeat;
-
-  width: 1rem;
-  height: 1rem;
-}
-
 ::-webkit-scrollbar {
   width: 8px;
 }

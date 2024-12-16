@@ -72,7 +72,7 @@ export default {
 
     async fetchPostList() {
       try {
-        let url = API_CONFIG.BLOG.GET_ALL_POSTS;
+        let url = API_CONFIG.BLOG.GET_POSTS;
         if (this.filterSearchName !== "") {
           url += `&search=${this.filterSearchName}`;
         }
