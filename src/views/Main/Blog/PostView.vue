@@ -86,7 +86,7 @@ export default {
       this.loading = true;
       this.error = "";
 
-      axios.get(API_CONFIG.BLOG.GET_POST_BY_URL_STRING + "?url_string=" + this.slug)
+      axios.get(API_CONFIG.BLOG.GET_POST + "?url_string=" + this.slug)
         .then(async (res) => {
           await new Promise((resolve) => setTimeout(resolve, 300));
           this.post = res.data.post;
